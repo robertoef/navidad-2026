@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jornadas de puertas abiertas · Navidad 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#111111; --soft:#6f6f6f; --faint:#a8a8a8;
+  --line:#e8e6e2; --warm:#f3efe9; --acento:#9b1c25;
+  --borde:clamp(20px,3vw,44px); --hilo:max(38vh,290px); --asis-x:clamp(28px,7vw,110px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Inter Tight',Helvetica,Arial,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+
+#nieve{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+.pagina{position:relative;z-index:1;min-height:100vh;min-height:100svh;display:grid;grid-template-rows:auto auto auto auto;padding:var(--borde)}
+
+/* ---------- Logo ---------- */
+.top{display:flex;justify-content:center;padding-top:clamp(4px,1.5vh,18px)}
+.logo{width:min(420px,70vw);height:auto;display:block}
+
+/* ---------- Frase ---------- */
+.hero{text-align:center;padding:clamp(56px,11vh,130px) 0 clamp(40px,7vh,80px)}
+.kicker{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);margin-bottom:clamp(22px,4.5vh,44px)}
+.kicker i{display:inline-block;width:28px;height:1px;background:var(--faint);vertical-align:middle;margin:0 14px;font-style:normal}
+.frase{font-weight:200;font-size:clamp(42px,7.6vw,124px);line-height:.98;letter-spacing:-.04em}
+.frase em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:-.015em;color:var(--acento)}
+.frase .l{display:block;overflow:hidden;padding-bottom:.06em}
+.frase .l > span{display:inline-block;transform:translateY(105%);animation:sube 1.2s cubic-bezier(.2,.7,.1,1) forwards}
+.frase .l:nth-child(2) > span{animation-delay:.14s}
+.frase .l:nth-child(3) > span{animation-delay:.28s}
+@keyframes sube{to{transform:none}}
+@keyframes aparece{to{opacity:1}}
+
+/* ---------- Base ---------- */
+.base{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;opacity:0;animation:aparece 1s 1.1s forwards}
+.firma{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);writing-mode:vertical-rl;transform:rotate(180deg)}
+
+/* ---------- Asistente ---------- */
+.asis{position:fixed;top:0;right:var(--asis-x);z-index:20;display:flex;flex-direction:column;align-items:center;transform-origin:50% 0;animation:balanceo 5.5s ease-in-out infinite}
+.hilo{width:1px;height:var(--hilo);background:var(--ink);transform-origin:top;animation:baja 1.4s cubic-bezier(.3,.8,.2,1) both}
+.bola{background:none;border:0;cursor:pointer;display:block;width:78px;animation:aparece .6s .9s both}
+.bola svg{display:block;width:100%;height:auto;overflow:visible}
+.bola:focus-visible{outline:1px solid var(--ink);outline-offset:6px}
+.asis-nombre{margin-top:8px;font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);animation:aparece .6s 1.2s both}
+.asis.salta .bola svg{animation:salto .7s cubic-bezier(.3,1.6,.5,1)}
+.ojos{transition:transform .5s}
+.asis.mira .ojos{transform:translateY(2px)}
+.parpado{transform-box:fill-box;transform-origin:center;animation:parpadeo 5s infinite}
+@keyframes balanceo{0%,100%{transform:rotate(2deg)}50%{transform:rotate(-2deg)}}
+@keyframes baja{from{transform:scaleY(0)}}
+@keyframes salto{0%{transform:none}35%{transform:translateY(-9px) rotate(-4deg)}100%{transform:none}}
+@keyframes parpadeo{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.08)}}
+
+/* ---------- Cartel ---------- */
+.cartel{position:fixed;z-index:19;--cr:max(var(--borde),calc(var(--asis-x) - 60px));top:calc(var(--hilo) + 134px);right:var(--cr);width:300px;background:#fff;border:1px solid var(--ink);padding:20px 22px 0;opacity:0;transform:translateY(-8px);transition:opacity .45s,transform .45s cubic-bezier(.2,.7,.1,1);pointer-events:none}
+.cartel.on{opacity:1;transform:none;pointer-events:auto}
+.flecha{position:absolute;top:-6px;right:calc(var(--asis-x) + 39px - var(--cr) - 6px);width:11px;height:11px;background:#fff;border-top:1px solid var(--ink);border-left:1px solid var(--ink);transform:rotate(45deg)}
+.c-cab{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--soft);margin-bottom:14px}
+.c-nuevo{color:var(--acento);font-weight:500}
+.c-x{background:none;border:0;cursor:pointer;font-size:16px;font-weight:200;line-height:1;margin:-4px -6px 0 auto;padding:2px 6px;color:var(--soft)}
+.c-x:hover{color:var(--ink)}
+.c-tit{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:27px;line-height:1.04;letter-spacing:-.01em;margin-bottom:10px}
+.c-txt{font-size:13px;line-height:1.55;color:#3a3a3a}
+.c-pie{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;padding:12px 0 14px;border-top:1px solid var(--line);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.c-pie a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px}
+.c-puntos{display:flex;gap:5px}
+.c-puntos button{width:14px;height:9px;border:0;background:none;cursor:pointer;position:relative}
+.c-puntos button::after{content:"";position:absolute;left:0;right:0;top:4px;height:1px;background:var(--line)}
+.c-puntos button.on::after{background:var(--ink)}
+.c-prog{position:absolute;left:-1px;bottom:-1px;height:1px;background:var(--ink);width:0}
+
+/* ---------- Responsive ---------- */
+@media (max-width:760px){
+  .indice{grid-template-columns:repeat(2,1fr)}
+  .arbol{width:min(250px,72%)}
+  .lab{display:none}
+  .leyenda{display:block;width:100%;margin:-40px 0 56px;border-top:1px solid var(--ink)}
+  .ley-fila{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none;font-size:14px}
+  .ley-fila span:last-child{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+  :root{--hilo:7vh;--asis-x:18px}
+  .top{justify-content:flex-start;padding-right:80px}
+  .logo{width:min(300px,62vw)}
+  .bola{width:54px}
+  .asis-nombre{font-size:8px}
+  .hero{text-align:left;padding:72px 0 56px}
+  .kicker i{width:14px;margin:0 8px}
+  .base{flex-direction:column;align-items:stretch}
+  .cal{width:100%}
+  .firma{display:none}
+  .cartel{top:auto;bottom:16px;left:16px;right:16px;width:auto;transform:translateY(14px);box-shadow:0 18px 50px rgba(0,0,0,.12)}
+  .flecha{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .frase .l > span{transform:none}
+  .base{opacity:1}
+}
+
+/* ---------- Cabecera de sección ---------- */
+.top{position:relative}
+.volver-top{position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-decoration:none;transition:color .3s}
+.volver-top:hover{color:var(--ink)}
+.hero{padding:clamp(48px,9vh,110px) 0 clamp(48px,8vh,96px)}
+.frase{font-size:clamp(40px,6.4vw,104px)}
+
+/* ---------- Naves con puertas (turnos) ---------- */
+.naves{width:min(700px,100%);margin:0 auto clamp(72px,12vh,128px);display:grid;grid-template-columns:repeat(2,1fr);gap:56px}
+.nave{opacity:0;animation:llega .9s cubic-bezier(.2,.7,.1,1) forwards}
+@keyframes llega{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.nv-fecha{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.nv-dia{font-weight:200;font-size:46px;letter-spacing:-.03em;line-height:1}
+.nv-mes{display:flex;flex-direction:column;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--soft);gap:3px}
+.nv-mes b{font-weight:400;color:var(--ink)}
+.cubierta{display:block;width:100%;height:42px;overflow:visible}
+.cubierta path{fill:none;stroke:var(--ink);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.fachada{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 6px;padding:20px 18px 0;border-left:1px solid var(--ink);border-right:1px solid var(--ink)}
+.suelo{height:1px;background:var(--ink);margin:0 -10px}
+.turno{display:block;text-decoration:none;color:inherit}
+.tu-hora{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.tu-hora b{font-weight:300;font-size:20px;letter-spacing:-.01em}
+.tu-hora span{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.puerta{display:block;position:relative;height:128px;border:1px solid var(--ink);border-bottom:0;overflow:hidden;background:var(--warm)}
+.tras{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;padding-bottom:16px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;text-align:center}
+.tras b{font-weight:400;font-size:12px;letter-spacing:.18em}
+.persiana{position:absolute;inset:0;background:#fff repeating-linear-gradient(0deg,transparent 0 9px,rgba(17,17,17,.28) 9px 10px);transition:transform .7s cubic-bezier(.6,0,.2,1)}
+.persiana::after{content:"";position:absolute;left:50%;bottom:10px;width:18px;height:3px;margin-left:-9px;border:1px solid var(--ink);background:#fff}
+.turno:hover .persiana,.turno:focus-visible .persiana{transform:translateY(-74%)}
+.turno.sin .tras{color:var(--soft)}
+a.turno{cursor:pointer}
+
+/* ---------- Normas ---------- */
+.normas{width:min(700px,100%);margin:0 auto clamp(64px,11vh,120px);border-top:1px solid var(--ink);padding-top:28px}
+.normas h2{font-weight:200;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.03em;line-height:1.05}
+.normas h2 em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:var(--acento)}
+.normas-nota{margin-top:10px;font-size:12.5px;color:var(--soft)}
+.normas ol{list-style:none;margin-top:28px;display:grid;grid-template-columns:repeat(2,1fr);column-gap:40px}
+.normas li{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.5}
+.normas li span{font-size:9px;letter-spacing:.2em;color:var(--faint);padding-top:4px}
+
+.pie{display:flex;justify-content:center;padding-bottom:12px}
+.pie a{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+.pie a:hover{color:var(--ink);border-color:var(--ink)}
+
+@media (max-width:760px){
+  .volver-top{position:static;transform:none;display:block;margin-bottom:14px}
+  .top{flex-direction:column;align-items:flex-start}
+  .naves{grid-template-columns:1fr;gap:48px}
+  .normas ol{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+<canvas id="nieve" aria-hidden="true"></canvas>
+
+<div class="pagina">
+  <header class="top">
+    <a class="volver-top" href="index.html">← Navidad 2026</a>
+    <a href="index.html"><img class="logo" src="logo.png" alt="Plataforma Europa · Inditex"></a>
+  </header>
+
+  <main class="hero">
+    <p class="kicker" id="kicker"></p>
+    <h1 class="frase" id="frase"></h1>
+  </main>
+
+  <section class="naves" id="naves" aria-label="Fechas y turnos de visita"></section>
+
+  <section class="normas" id="normas" aria-labelledby="normasTit"></section>
+
+  <footer class="pie"><a href="index.html">Volver a Navidad 2026</a></footer>
+</div>
+
+<!-- Asistente -->
+<div class="asis" id="asis">
+  <div class="hilo"></div>
+  <button class="bola" id="bola" aria-label="Ver novedades">
+    <svg viewBox="0 0 80 96" aria-hidden="true">
+      <circle cx="40" cy="4.5" r="3.5" fill="none" stroke="#111" stroke-width="1.1"/>
+      <rect x="32" y="8" width="16" height="9.5" rx="1.5" fill="#9b1c25" stroke="#111" stroke-width="1.1"/>
+      <line x1="36.5" y1="8.5" x2="36.5" y2="17" stroke="#fff" stroke-opacity=".55" stroke-width=".7"/>
+      <line x1="40" y1="8.5" x2="40" y2="17" stroke="#fff" stroke-opacity=".55" stroke-width=".7"/>
+      <line x1="43.5" y1="8.5" x2="43.5" y2="17" stroke="#fff" stroke-opacity=".55" stroke-width=".7"/>
+      <circle cx="40" cy="55" r="36" fill="#f3efe9" stroke="#111" stroke-width="1.2"/>
+      <path d="M15 37 A28 28 0 0 1 29 24.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M8.5 71 Q40 84 71.5 71" fill="none" stroke="#111" stroke-width=".7"/>
+      <path d="M11.5 77 Q40 89 68.5 77" fill="none" stroke="#111" stroke-width=".7"/>
+      <g class="ojos">
+        <ellipse class="parpado" cx="31" cy="52" rx="2.3" ry="3.2" fill="#111"/>
+        <ellipse class="parpado" cx="49" cy="52" rx="2.3" ry="3.2" fill="#111"/>
+        <path d="M35 60.5 Q40 65 45 60.5" fill="none" stroke="#111" stroke-width="1.3" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </button>
+  <span class="asis-nombre" id="asisNombre"></span>
+</div>
+
+<aside class="cartel" id="cartel" aria-live="polite">
+  <span class="flecha"></span>
+  <div class="c-cab"><span id="cEvento"></span><span class="c-nuevo" id="cNuevo"></span><button class="c-x" id="cX" aria-label="Cerrar">×</button></div>
+  <p class="c-tit" id="cTit"></p>
+  <p class="c-txt" id="cTxt"></p>
+  <div class="c-pie"><span id="cFecha"></span><div class="c-puntos" id="cPuntos"></div><span id="cLink"></span></div>
+  <span class="c-prog" id="cProg"></span>
+</aside>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN DEL MERCADILLO SOLIDARIO — todo lo que se cambia está aquí
+   ===================================================================== */
+const CONFIG = {
+
+  antetitulo: "Navidad 2026|21 y 22 de diciembre",   // "|" separa con una línea fina
+  frase: "Jornadas de|puertas *abiertas*",            // "|" = salto de línea, *palabra* = cursiva en rojo
+
+  // Fechas y turnos. Cada turno es una puerta: al pulsarla abre su enlace de inscripción.
+  // enlace vacío → la puerta muestra "Inscripción próximamente".
+  fechas: [
+    { fecha: "2026-12-21", turnos: [
+      { hora: "10:00", enlace: "" },
+      { hora: "16:00", enlace: "" }
+    ]},
+    { fecha: "2026-12-22", turnos: [
+      { hora: "10:00", enlace: "" },
+      { hora: "16:00", enlace: "" }
+    ]}
+  ],
+
+  // Normas de la visita. EJEMPLO: revísalas con Seguridad / PRL antes de publicar.
+  normasNota: "Léelas antes de apuntarte. Son necesarias para que la visita sea segura para todos.",
+  normas: [
+    "Llega al menos 15 minutos antes de la hora de tu turno.",
+    "Trae tu DNI o documento identificativo; se pedirá en el control de acceso.",
+    "Usa calzado cerrado y plano. No se permite el acceso con tacones ni sandalias.",
+    "Sigue en todo momento al guía y camina solo por las zonas peatonales señalizadas.",
+    "No toques maquinaria, mercancía ni equipos en ningún momento.",
+    "No está permitido hacer fotos ni grabar vídeos en el interior.",
+    "No está permitida la asistencia de menores de edad.",
+    "Plazas limitadas: si no puedes venir, cancela tu inscripción para liberar la plaza.",
+    "Si necesitas algún apoyo de accesibilidad, indícalo al inscribirte.",
+    "Al finalizar la visita te esperamos en un cocktail de despedida."
+  ],
+
+  asistente: {
+    nombre: "Noa",
+    activo: true,
+    segundos: 8,
+    vueltas: 1,
+    diasNuevo: 3,
+    saludo: {
+      titulo: "Bienvenido a las puertas abiertas",
+      texto: "Elige una fecha y un turno: cada puerta te lleva a su inscripción."
+    }
+  },
+
+  // Mensajes de Noa en esta página. importante: true → etiqueta "Importante" en rojo.
+  avisos: [
+    { fecha: "2026-10-21", evento: "Puertas abiertas", importante: true,
+      titulo: "Lee las normas antes de venir",
+      texto: "Las encontrarás al final de esta página. Son obligatorias para hacer la visita.",
+      enlace: "#normas" },
+    { fecha: "2026-10-21", evento: "Puertas abiertas",
+      titulo: "Dos fechas, dos turnos",
+      texto: "21 y 22 de diciembre, a las 10:00 y a las 16:00. Elige el que mejor te venga.",
+      enlace: "" }
+  ],
+
+  nieve: true
+};
+/* ===================================================================== */
+
+(function () {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const hoy = (() => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); })();
+  const key = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  const corto = d => new Intl.DateTimeFormat('es-ES', { day:'numeric', month:'short' }).format(d).replace('.', '').toUpperCase();
+  const mesTxt = d => new Intl.DateTimeFormat('es-ES', { month:'long', year:'numeric' }).format(d).replace(' de ', ' ');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Frase ---------- */
+  $('frase').innerHTML = CONFIG.frase.split('|').map(l =>
+    `<span class="l"><span>${esc(l).replace(/\*(.+?)\*/g, '<em>$1</em>')}</span></span>`).join('');
+
+  /* ---------- Antetítulo ---------- */
+  $('kicker').innerHTML = CONFIG.antetitulo.split('|').map(esc).join(' <i></i> ');
+
+  /* ---------- Naves y turnos ---------- */
+  const CUBIERTA = '<svg class="cubierta" viewBox="0 0 200 42" preserveAspectRatio="none" aria-hidden="true"><path d="M0 41 L100 3 L200 41"/><path d="M6 41 H194"/></svg>';
+  const fDia = new Intl.DateTimeFormat('es-ES', { weekday:'long' });
+  $('naves').innerHTML = CONFIG.fechas.map((f, n) => {
+    const d = parse(f.fecha);
+    const turnos = f.turnos.map(t => {
+      const franja = parseInt(t.hora, 10) < 14 ? 'Mañana' : 'Tarde';
+      const tag = t.enlace ? 'a' : 'div';
+      const tras = t.enlace ? '<b>Apúntate</b>→' : 'Inscripción<br>próximamente';
+      return `<${tag} class="turno${t.enlace ? '' : ' sin'}"${t.enlace ? ` href="${esc(t.enlace)}" target="_blank" rel="noopener" aria-label="Apuntarme al turno de las ${esc(t.hora)}"` : ' tabindex="0"'}>
+        <span class="tu-hora"><b>${esc(t.hora)}</b><span>${franja}</span></span>
+        <span class="puerta"><span class="tras">${tras}</span><span class="persiana"></span></span></${tag}>`;
+    }).join('');
+    return `<div class="nave" style="animation-delay:${1 + n * .15}s">
+      <div class="nv-fecha"><span class="nv-dia">${d.getDate()}</span>
+        <span class="nv-mes"><b>${esc(fDia.format(d))}</b>${esc(new Intl.DateTimeFormat('es-ES', { month:'long' }).format(d))}</span></div>
+      ${CUBIERTA}
+      <div class="fachada">${turnos}</div>
+      <div class="suelo"></div></div>`;
+  }).join('');
+  $('naves').addEventListener('mouseenter', () => { if (typeof cerrarCartel === 'function') cerrarCartel(); });
+
+  /* ---------- Normas ---------- */
+  $('normas').innerHTML = `<h2 id="normasTit">Normas de la <em>visita</em></h2>
+    <p class="normas-nota">${esc(CONFIG.normasNota)}</p>
+    <ol>${CONFIG.normas.map((t, n) => `<li><span>${String(n + 1).padStart(2, '0')}</span>${esc(t)}</li>`).join('')}</ol>`;
+
+  /* ---------- Asistente ---------- */
+  let cerrarCartel = null;
+  const A = CONFIG.asistente, asis = $('asis'), cartel = $('cartel');
+  if (!A.activo) { asis.remove(); cartel.remove(); }
+  else {
+    $('asisNombre').textContent = A.nombre;
+    const avisos = [...CONFIG.avisos].sort((x, y) => y.fecha.localeCompare(x.fecha));
+    const lista = (A.saludo ? [{ saludo: true, evento: A.nombre, titulo: A.saludo.titulo, texto: A.saludo.texto }] : []).concat(avisos);
+    let i = 0, mostrados = 0, timer = null, pausa = false, abierto = false;
+
+    const relativo = f => {
+      const dias = Math.round((hoy - parse(f)) / 864e5);
+      if (dias <= 0) return 'Hoy'; if (dias === 1) return 'Ayer';
+      if (dias < 7) return 'Hace ' + dias + ' días'; return corto(parse(f));
+    };
+
+    function pinta() {
+      const a = lista[i];
+      $('cEvento').textContent = a.evento || '';
+      const nuevo = !a.saludo && a.fecha && (hoy - parse(a.fecha)) / 864e5 <= A.diasNuevo;
+      $('cNuevo').textContent = a.importante ? 'Importante' : (nuevo ? 'Nuevo' : '');
+      $('cTit').textContent = a.titulo;
+      $('cTxt').textContent = a.texto;
+      $('cFecha').textContent = a.saludo ? '' : relativo(a.fecha);
+      $('cLink').innerHTML = a.enlace ? `<a href="${esc(a.enlace)}">Ver más</a>` : '';
+      $('cPuntos').innerHTML = lista.length > 1 ? lista.map((_, n) => `<button class="${n === i ? 'on' : ''}" data-n="${n}" aria-label="Aviso ${n + 1}"></button>`).join('') : '';
+      const p = $('cProg'); p.style.transition = 'none'; p.style.width = '0';
+      if (!pausa && !reduce) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.transition = `width ${A.segundos}s linear`; p.style.width = 'calc(100% + 2px)'; }));
+      asis.classList.remove('salta'); void asis.offsetWidth; asis.classList.add('salta');
+    }
+    function abrir(n = 0) { i = n; abierto = true; cartel.classList.add('on'); asis.classList.add('mira'); pinta(); programar(); }
+    function cerrar() { abierto = false; cartel.classList.remove('on'); asis.classList.remove('mira'); clearTimeout(timer); }
+    cerrarCartel = () => { if (abierto) cerrar(); };
+    function programar() {
+      clearTimeout(timer);
+      if (pausa) return;
+      timer = setTimeout(() => {
+        mostrados++;
+        if (A.vueltas && mostrados >= lista.length * A.vueltas) return cerrar();
+        i = (i + 1) % lista.length; pinta(); programar();
+      }, A.segundos * 1000);
+    }
+
+    $('bola').onclick = () => abierto ? cerrar() : (mostrados = 0, abrir(A.saludo && avisos.length ? 1 : 0));
+    $('cX').onclick = cerrar;
+    $('cPuntos').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { i = +b.dataset.n; pinta(); programar(); } });
+    cartel.addEventListener('mouseenter', () => { pausa = true; clearTimeout(timer); const p = $('cProg'); p.style.transition = 'none'; });
+    cartel.addEventListener('mouseleave', () => { pausa = false; pinta(); programar(); });
+    setTimeout(() => abrir(0), 1900);
+  }
+
+  /* ---------- Nieve ---------- */
+  if (CONFIG.nieve && !reduce) {
+    const cv = $('nieve'), ctx = cv.getContext('2d');
+    let W, H, copos = [];
+    const crea = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = W < 760 ? 22 : 44;
+      copos = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, r: .6 + Math.random() * 1.5, v: .12 + Math.random() * .32, f: Math.random() * 6.28 }));
+    };
+    const ciclo = () => {
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = 'rgba(176,166,150,.45)';
+      for (const c of copos) {
+        c.y += c.v; c.f += .008; c.x += Math.sin(c.f) * .18;
+        if (c.y > H + 4) { c.y = -4; c.x = Math.random() * W; }
+        ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, 6.283); ctx.fill();
+      }
+      requestAnimationFrame(ciclo);
+    };
+    crea(); addEventListener('resize', crea); ciclo();
+  }
+})();
+</script>
+</body>
+</html>
