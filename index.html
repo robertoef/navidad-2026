@@ -85,36 +85,34 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .pronto{margin-top:12px;font-size:10.5px;color:var(--soft);line-height:1.6}
 .pronto b{font-weight:400;letter-spacing:.24em;font-size:8.5px;text-transform:uppercase;color:var(--faint);margin-right:8px}
 
-/* ---------- Árbol de eventos ---------- */
-.arbol{position:relative;width:min(400px,100%);margin:0 auto clamp(64px,11vh,120px)}
-.arbol svg{display:block;width:100%;height:auto;overflow:visible}
-.traza{fill:none;stroke:var(--ink);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:traza 2.6s .8s cubic-bezier(.45,0,.2,1) forwards}
-@keyframes traza{to{stroke-dashoffset:0}}
-.estrella{fill:none;stroke:var(--acento);stroke-width:1.1;stroke-linejoin:round;opacity:0;transform-box:fill-box;transform-origin:center;animation:aparece .8s 2.6s forwards,brilla 4s 3.4s ease-in-out infinite}
-@keyframes brilla{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.7}}
-.ador{cursor:pointer;opacity:0;animation:cae .9s cubic-bezier(.3,1.5,.5,1) forwards}
-@keyframes cae{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.ador-in{transform-box:view-box;transition:transform .6s}
-.ador.on .ador-in{animation:mece 1.8s ease-in-out infinite}
-@keyframes mece{0%,100%{transform:rotate(7deg)}50%{transform:rotate(-7deg)}}
-.ador .hilo-a{stroke:var(--ink);stroke-width:.8;vector-effect:non-scaling-stroke}
-.ador .bolita{fill:#fff;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke;transition:fill .4s}
-.ador .cap{fill:#fff;stroke:var(--ink);stroke-width:.9;vector-effect:non-scaling-stroke}
-.ador .gl *{fill:none;stroke:var(--faint);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;transition:stroke .4s}
-.ador.on .bolita{fill:var(--warm)}
-.ador.on .gl *{stroke:var(--ink)}
-.ador .zona{fill:transparent}
-.lab{position:absolute;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;white-space:nowrap;text-decoration:none;cursor:pointer;opacity:0;animation:aparece .8s forwards}
-.lab.izq{align-items:flex-end;text-align:right}
-.lab-nom{font-size:14px;font-weight:300;transition:color .3s}
-.lab-fec{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft)}
-.lab::before{content:"";position:absolute;top:9px;width:14px;height:1px;background:var(--line);transition:background .3s,width .3s}
-.lab.izq::before{right:-22px}
-.lab.der::before{left:-22px}
-.lab.on::before{background:var(--ink)}
-.lab.on .lab-nom{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
-.arbol.foco .lab:not(.on) .lab-nom{color:var(--faint)}
-.leyenda{display:none}
+/* ---------- Escaparate de eventos ---------- */
+.escaparate{margin:0 calc(var(--borde) * -1) clamp(64px,11vh,120px);opacity:0;animation:aparece 1s .9s forwards}
+.esc-cab{display:flex;justify-content:space-between;align-items:flex-end;padding:0 var(--borde);margin-bottom:18px}
+.esc-tit{font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--soft)}
+.esc-tit b{font-weight:400;color:var(--ink);margin-right:14px}
+.esc-nav{display:flex;align-items:center;gap:14px}
+.esc-cont{font-size:10px;letter-spacing:.2em;color:var(--soft);min-width:52px;text-align:right}
+.esc-nav button{background:none;border:1px solid var(--line);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:14px;font-weight:300;transition:border-color .2s,opacity .2s}
+.esc-nav button:hover:not(:disabled){border-color:var(--ink)}
+.esc-nav button:disabled{opacity:.25;cursor:default}
+.esc-pista{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 var(--borde);padding:0 var(--borde) 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.esc-pista::-webkit-scrollbar{display:none}
+.esc-pista::after{content:"";flex:0 0 1px}
+.vit{flex:0 0 clamp(240px,23vw,320px);scroll-snap-align:start;text-decoration:none;color:inherit;cursor:pointer}
+.vit-img{position:relative;aspect-ratio:4/5;background:var(--warm);overflow:hidden;display:grid;place-items:center}
+.vit-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+.vit-img svg{width:44%;height:44%;overflow:visible;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
+.vit-img svg *{fill:none;stroke:var(--ink);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.vit:hover .vit-img img,.vit:hover .vit-img svg{transform:scale(1.06)}
+.vit-nuevo{position:absolute;top:14px;left:14px;background:var(--acento);color:#fff;font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;padding:5px 9px 4px}
+.vit-pie{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 2px 0}
+.vit-nom{font-size:15px;font-weight:300;line-height:1.25}
+.vit-fec{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+.vit-nov{display:block;padding:6px 2px 0;font-size:12px;color:var(--acento);line-height:1.4}
+.vit-nov::before{content:"— "}
+.vit:hover .vit-nom{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.esc-barra{margin:22px var(--borde) 0;height:1px;background:var(--line);position:relative}
+.esc-barra i{position:absolute;left:0;top:0;height:1px;background:var(--ink);transition:left .3s,width .3s}
 
 /* ---------- Asistente ---------- */
 .asis{position:fixed;top:0;right:var(--asis-x);z-index:20;display:flex;flex-direction:column;align-items:center;transform-origin:50% 0;animation:balanceo 5.5s ease-in-out infinite}
@@ -153,11 +151,7 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 /* ---------- Responsive ---------- */
 @media (max-width:760px){
   .indice{grid-template-columns:repeat(2,1fr)}
-  .arbol{width:min(250px,72%)}
-  .lab{display:none}
-  .leyenda{display:block;width:100%;margin:-40px 0 56px;border-top:1px solid var(--ink)}
-  .ley-fila{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none;font-size:14px}
-  .ley-fila span:last-child{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+  .vit{flex-basis:76vw}
   :root{--hilo:7vh;--asis-x:18px}
   .top{justify-content:flex-start;padding-right:80px}
   .logo{width:min(300px,62vw)}
@@ -191,8 +185,14 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
     <h1 class="frase" id="frase"></h1>
   </main>
 
-  <nav class="arbol" id="indice" aria-label="Eventos"></nav>
-  <div class="leyenda" id="leyenda"></div>
+  <section class="escaparate" id="indice" aria-label="Eventos">
+    <div class="esc-cab">
+      <span class="esc-tit"><b>Eventos</b><span id="escNum"></span></span>
+      <div class="esc-nav"><span class="esc-cont" id="escCont"></span><button id="escAnt" aria-label="Anterior">←</button><button id="escSig" aria-label="Siguiente">→</button></div>
+    </div>
+    <div class="esc-pista" id="escPista"></div>
+    <div class="esc-barra"><i id="escBarra"></i></div>
+  </section>
 
   <footer class="base">
     <section class="cal" id="cal" aria-label="Calendario de eventos">
@@ -410,65 +410,51 @@ const CONFIG = {
   const GLIFOS = {
     percha:  '<path d="M45 31 C45 24 55 24 55 31 C55 36 50 37 50 43"/><path d="M50 43 L20 64 H80 Z"/>',
     corona:  '<path d="M24 64 V38 L37 52 L50 32 L63 52 L76 38 V64 Z"/><path d="M24 71 H76"/>',
-    almacen: '<path d="M12 74 H88"/><path d="M16 74 V50 L36 41 L56 50 V74"/><path d="M60 74 V40 Q66 33 72 40 V74"/><path d="M75 74 V34 Q81 27 87 34 V74"/>',
-    dulce:   '<path d="M20 62 C22 44 36 33 50 33 C64 33 78 44 80 62 C72 56 62 53 50 53 C38 53 28 56 20 62 Z"/><path d="M36 37 Q41 45 39 54 M50 33 V53 M64 37 Q59 45 61 54"/>'
+    // Nave central con un silo bajo a cada lado; todos con tejado plano
+    almacen: '<path d="M8 70 H92"/><path d="M31 70 V42 H69 V70"/><path d="M44 70 V58 H56 V70"/><path d="M15 70 V53 H27 V70"/><path d="M15 61.5 H27"/><path d="M73 70 V53 H85 V70"/><path d="M73 61.5 H85"/>',
+    // Croissant: media luna con gajos y puntas hacia abajo
+    dulce:   '<path d="M14 66 Q14.5 54.6 26 48 Q29.4 36 40 36 Q50 28 60 36 Q70.6 36 74 48 Q85.5 54.6 86 66 Q50 50 14 66 Z"/><path d="M26 48 Q31 54 32 60 M40 36 Q43 47 43 58.4 M60 36 Q57 47 57 58.4 M74 48 Q69 54 68 60"/>'
   };
-  // Puntas de las ramas donde se cuelgan los adornos (en orden), lado de la etiqueta
-  const PUNTAS = [ [128,138,'izq'], [272,138,'der'], [100,250,'izq'], [300,250,'der'], [70,370,'izq'], [330,370,'der'] ];
-  const VB_W = 400, VB_H = 420, R = 15, HILO = 22;
-  const eventos = CONFIG.eventos.slice(0, PUNTAS.length);
 
-  const arbolSVG = `
-    <path class="traza" pathLength="1" d="M200 30 L128 138 H176 L100 250 H150 L70 370 H330 L250 250 H300 L224 138 H272 Z"/>
-    <path class="traza" pathLength="1" d="M191 370 V394 H209 V370"/>
-    <path class="estrella" d="M200 6 l3.3 7.2 7.8 .9 -5.8 5.3 1.6 7.7 -6.9 -3.9 -6.9 3.9 1.6 -7.7 -5.8 -5.3 7.8 -.9 z"/>
-    ${eventos.map((e, n) => {
-      const [x, y] = PUNTAS[n], cy = y + HILO + R;
-      return `<g class="ador" data-n="${n}" style="animation-delay:${2.2 + n * .18}s">
-        <g class="ador-in" style="transform-origin:${x}px ${y}px">
-          <line class="hilo-a" x1="${x}" y1="${y}" x2="${x}" y2="${cy - R - 4}"/>
-          <rect class="cap" x="${x - 4}" y="${cy - R - 4}" width="8" height="4.5" rx="1"/>
-          <circle class="bolita" cx="${x}" cy="${cy}" r="${R}"/>
-          <g class="gl" transform="translate(${x - 10} ${cy - 10}) scale(.2)">${GLIFOS[e.ilustracion] || ''}</g>
-          <circle class="zona" cx="${x}" cy="${cy}" r="${R + 8}"/>
-        </g></g>`;
-    }).join('')}`;
-
-  const labels = eventos.map((e, n) => {
-    const [x, y, lado] = PUNTAS[n], cy = y + HILO + R;
-    const pos = lado === 'izq' ? `right:calc(${100 - x / VB_W * 100}% + ${R + 14}px)` : `left:calc(${x / VB_W * 100}% + ${R + 14}px)`;
+  // Novedad automática: el último aviso de Noa que enlaza a ese evento, si es de los últimos 7 días
+  const novedad = e => {
+    if (!e.enlace) return null;
+    const av = CONFIG.avisos.filter(a => a.enlace === e.enlace && (hoy - parse(a.fecha)) / 864e5 <= 7)
+      .sort((x, y) => y.fecha.localeCompare(x.fecha));
+    return av[0] || null;
+  };
+  // Los eventos con novedad se muestran primero
+  const lista = CONFIG.eventos.map((e, n) => ({ e, n, nov: novedad(e) }))
+    .sort((a, b) => (b.nov ? 1 : 0) - (a.nov ? 1 : 0) || a.n - b.n);
+  const pista = $('escPista');
+  pista.innerHTML = lista.map(({ e, nov }) => {
     const tag = e.enlace ? 'a' : 'div';
-    return `<${tag} class="lab ${lado}" data-n="${n}" style="${pos};top:${cy / VB_H * 100}%;animation-delay:${2.4 + n * .18}s"${e.enlace ? ` href="${esc(e.enlace)}"` : ''}>
-      <span class="lab-nom">${esc(e.nombre)}</span><span class="lab-fec">${esc(e.fecha)}</span></${tag}>`;
+    const img = e.imagen ? `<img src="${esc(e.imagen)}" alt="" loading="lazy">` : `<svg viewBox="0 0 100 100" aria-hidden="true">${GLIFOS[e.ilustracion] || ''}</svg>`;
+    return `<${tag} class="vit"${e.enlace ? ` href="${esc(e.enlace)}"` : ''}>
+      <div class="vit-img">${img}${nov ? '<span class="vit-nuevo">Nuevo</span>' : ''}</div>
+      <div class="vit-pie"><span class="vit-nom">${esc(e.nombre)}</span><span class="vit-fec">${esc(e.fecha)}</span></div>
+      ${nov ? `<span class="vit-nov">${esc(nov.titulo)}</span>` : ''}</${tag}>`;
   }).join('');
+  $('escNum').textContent = String(lista.length).padStart(2, '0');
 
-  const arbol = $('indice');
-  arbol.innerHTML = `<svg viewBox="0 0 ${VB_W} ${VB_H}" role="img" aria-label="Árbol de Navidad con los eventos">${arbolSVG}</svg>${labels}`;
-  $('leyenda').innerHTML = eventos.map((e, n) => {
-    const tag = e.enlace ? 'a' : 'div';
-    return `<${tag} class="ley-fila" data-n="${n}"${e.enlace ? ` href="${esc(e.enlace)}"` : ''}><span>${esc(e.nombre)}</span><span>${esc(e.fecha)}</span></${tag}>`;
-  }).join('');
-
-  function marca(n) {
-    arbol.querySelectorAll('.on').forEach(el => el.classList.remove('on'));
-    if (n == null) { arbol.classList.remove('foco'); return; }
-    arbol.querySelectorAll(`[data-n="${n}"]`).forEach(el => el.classList.add('on'));
-    arbol.classList.add('foco');
+  const paso = () => { const v = pista.querySelector('.vit'); return v ? v.getBoundingClientRect().width + 20 : 300; };
+  function estadoEsc() {
+    const max = pista.scrollWidth - pista.clientWidth;
+    $('escAnt').disabled = pista.scrollLeft <= 2;
+    $('escSig').disabled = pista.scrollLeft >= max - 2;
+    const vis = pista.clientWidth / pista.scrollWidth;
+    const b = $('escBarra');
+    b.style.width = (vis * 100) + '%';
+    b.style.left = (max > 0 ? pista.scrollLeft / max * (1 - vis) * 100 : 0) + '%';
+    const primero = Math.min(lista.length, Math.round(pista.scrollLeft / paso()) + 1);
+    $('escCont').textContent = String(primero).padStart(2, '0') + ' / ' + String(lista.length).padStart(2, '0');
   }
-  arbol.addEventListener('mouseover', e => {
-    const t = e.target.closest('[data-n]');
-    marca(t ? t.dataset.n : null);
-    if (t && typeof cerrarCartel === 'function') cerrarCartel();
-  });
-  arbol.addEventListener('mouseleave', () => marca(null));
-  // Clic en un adorno: abre su enlace si lo tiene
-  arbol.addEventListener('click', e => {
-    const g = e.target.closest('.ador'); if (!g) return;
-    const ev = eventos[+g.dataset.n]; if (ev.enlace) location.href = ev.enlace;
-  });
-  $('leyenda').addEventListener('click', e => {
-    const f = e.target.closest('[data-n]'); if (f) marca(f.dataset.n);
-  });
+  $('escAnt').onclick = () => pista.scrollBy({ left: -paso(), behavior: 'smooth' });
+  $('escSig').onclick = () => pista.scrollBy({ left: paso(), behavior: 'smooth' });
+  pista.addEventListener('scroll', estadoEsc, { passive: true });
+  addEventListener('resize', estadoEsc);
+  estadoEsc();
+  $('indice').addEventListener('mouseenter', () => { if (typeof cerrarCartel === 'function') cerrarCartel(); });
 
   /* ---------- Asistente ---------- */
   let cerrarCartel = null;
