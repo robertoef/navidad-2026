@@ -213,7 +213,7 @@ const CONFIG = {
 
   // Apartados (cada uno cuelga de una percha). enlace: vacío hasta que exista la página.
   apartados: [
-    { nombre: "Hazte voluntario",       enlace: "" },
+    { nombre: "Hazte voluntario",       enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUMDVaOUY4VlVQRDRET0o4Njc0SUdURFlJQy4u" },
     { nombre: "Solidary Talent",        enlace: "" },
     { nombre: "Percha Zero",            enlace: "" },
     { nombre: "Reservas Mercadillo",    enlace: "" },
@@ -267,7 +267,7 @@ const CONFIG = {
   const burra = $('burra');
   burra.innerHTML = CONFIG.apartados.map((a, n) => {
     const tag = a.enlace ? 'a' : 'div';
-    return `<${tag} class="ropa${a.enlace ? '' : ' pronto'}"${a.enlace ? ` href="${esc(a.enlace)}"` : ''}>
+    return `<${tag} class="ropa${a.enlace ? '' : ' pronto'}"${a.enlace ? ` href="${esc(a.enlace)}"${/^https?:/.test(a.enlace) ? ' target="_blank" rel="noopener"' : ''}` : ''}>
       <div class="colgante" style="animation-delay:${1 + n * .12}s">${PERCHA}
         <div class="etiqueta">
           <span class="et-num">${String(n + 1).padStart(2, '0')}</span>
