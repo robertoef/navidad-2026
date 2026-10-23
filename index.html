@@ -103,18 +103,27 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .escaparate.cabe .esc-cab{justify-content:center}
 .escaparate.cabe .esc-nav,.escaparate.cabe .esc-barra{visibility:hidden}
 .vit{flex:0 0 clamp(220px,calc((100vw - 2 * var(--borde) - 84px) / 4),300px);scroll-snap-align:start;text-decoration:none;color:inherit;cursor:pointer}
-.vit-img{position:relative;aspect-ratio:4/5;background:var(--warm);overflow:hidden;display:grid;place-items:center}
-.vit-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
-.vit-img svg{width:44%;height:44%;overflow:visible;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
-.vit-img svg *{fill:none;stroke:var(--ink);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-.vit:hover .vit-img img,.vit:hover .vit-img svg{transform:scale(1.06)}
-.vit-nuevo{position:absolute;top:14px;left:14px;background:var(--acento);color:#fff;font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;padding:5px 9px 4px}
-.vit-pie{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 2px 0}
-.vit-nom{font-size:15px;font-weight:300;line-height:1.25}
-.vit-fec{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
-.vit-nov{display:block;padding:6px 2px 0;font-size:12px;color:var(--acento);line-height:1.4}
+.vit-card{position:relative;aspect-ratio:4/5;background:var(--warm);padding:18px 20px 20px;display:flex;flex-direction:column;overflow:hidden;transition:background .5s,color .5s}
+.vit-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vit-top{display:flex;justify-content:space-between;align-items:flex-start;min-height:40px}
+.vit-num{font-size:9px;letter-spacing:.26em;color:var(--soft);padding-top:4px;transition:color .5s}
+.vit-nuevo{background:var(--acento);color:#fff;font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;padding:5px 9px 4px}
+.vit-gl{width:40px;height:40px;overflow:visible}
+.vit-gl *{fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.vit-fecha{margin-top:auto;margin-bottom:auto;padding-top:8px}
+.vit-dia{display:block;font-weight:200;font-size:clamp(58px,5.4vw,84px);letter-spacing:-.05em;line-height:.9;white-space:nowrap}
+.vit-dia.pronto{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:-.02em;font-size:clamp(50px,4.6vw,72px)}
+.vit-mes{display:block;margin-top:10px;font-size:9.5px;letter-spacing:.32em;text-transform:uppercase}
+.vit-base{border-top:1px solid currentColor;padding-top:12px}
+.vit-nom{display:block;font-size:16px;font-weight:300;line-height:1.25}
+.vit-est{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft);transition:color .5s}
+.vit-est i{width:5px;height:5px;border-radius:50%;background:currentColor}
+.vit-est.vivo{color:var(--acento)}
+.vit-nov{display:block;padding:10px 2px 0;font-size:12px;color:var(--acento);line-height:1.4}
 .vit-nov::before{content:"— "}
-.vit:hover .vit-nom{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.vit:hover .vit-card{background:var(--ink);color:#fff}
+.vit:hover .vit-num,.vit:hover .vit-est{color:rgba(255,255,255,.65)}
+.vit:hover .vit-est.vivo{color:#e8a0a5}
 .esc-barra{margin:22px var(--borde) 0;height:1px;background:var(--line);position:relative}
 .esc-barra i{position:absolute;left:0;top:0;height:1px;background:var(--ink);transition:left .3s,width .3s}
 
@@ -301,13 +310,14 @@ const CONFIG = {
   // Eventos aún sin fecha (aparecen bajo el calendario)
   sinFecha: ["El Mercado km 0"],
 
-  // Índice de eventos de la home. imagen: ruta a una foto (ej. "img/mercadillo.jpg").
-  // Mientras esté vacía se muestra una ilustración. enlace: vacío hasta que exista la página.
+  // Eventos de la home. inicio/fin: "AAAA-MM-DD" (vacío = por anunciar).
+  // estado: texto opcional (ej. "Inscripciones abiertas"); si está vacío se calcula con la fecha.
+  // imagen: opcional; si se pone, sustituye a la tarjeta tipográfica.
   eventos: [
-    { nombre: "Mercadillo Solidario", fecha: "10–18 dic", imagen: "", ilustracion: "percha", enlace: "mercadillo.html" },
-    { nombre: "Fiesta infantil de Navidad", fecha: "20 dic", imagen: "", ilustracion: "corona", enlace: "fiesta.html" },
-    { nombre: "Jornadas de puertas abiertas", fecha: "21–22 dic", imagen: "", ilustracion: "almacen", enlace: "puertas-abiertas.html" },
-    { nombre: "El Mercado km 0", fecha: "Por anunciar", imagen: "", ilustracion: "dulce", enlace: "mercado-km0.html" }
+    { nombre: "Mercadillo Solidario", inicio: "2026-12-10", fin: "2026-12-18", estado: "Voluntariado abierto", imagen: "", ilustracion: "percha", enlace: "mercadillo.html" },
+    { nombre: "Fiesta infantil de Navidad", inicio: "2026-12-20", fin: "", estado: "", imagen: "", ilustracion: "corona", enlace: "fiesta.html" },
+    { nombre: "Puertas Abiertas", inicio: "2026-12-21", fin: "2026-12-22", estado: "", imagen: "", ilustracion: "almacen", enlace: "puertas-abiertas.html" },
+    { nombre: "El Mercado km 0", inicio: "", fin: "", estado: "", imagen: "", ilustracion: "dulce", enlace: "mercado-km0.html" }
   ],
 
   nieve: true
@@ -431,13 +441,37 @@ const CONFIG = {
   const lista = CONFIG.eventos.map((e, n) => ({ e, n, nov: novedad(e) }))
     .sort((a, b) => (b.nov ? 1 : 0) - (a.nov ? 1 : 0) || a.n - b.n);
   const pista = $('escPista');
-  pista.innerHTML = lista.map(({ e, nov }) => {
+  const MESL = d => new Intl.DateTimeFormat('es-ES', { month:'long' }).format(d);
+  function fechaGrande(e) {
+    if (!e.inicio) return { dia: 'Pronto', mes: 'Fecha por anunciar', pronto: true };
+    const a = parse(e.inicio), b = e.fin ? parse(e.fin) : a;
+    if (+a === +b) return { dia: String(a.getDate()), mes: MESL(a) };
+    if (a.getMonth() === b.getMonth()) return { dia: a.getDate() + '–' + b.getDate(), mes: MESL(a) };
+    return { dia: a.getDate() + '–' + b.getDate(), mes: MESL(a).slice(0,3) + ' – ' + MESL(b).slice(0,3) };
+  }
+  function estadoEv(e) {
+    if (e.estado) return { t: e.estado, vivo: true };
+    if (!e.inicio) return { t: 'Muy pronto', vivo: false };
+    const a = parse(e.inicio), b = e.fin ? parse(e.fin) : a;
+    if (hoy > b) return { t: 'Finalizado', vivo: false };
+    if (hoy >= a) return { t: 'Hoy · en curso', vivo: true };
+    const d = Math.round((a - hoy) / 864e5);
+    return { t: d === 1 ? 'Mañana' : 'Faltan ' + d + ' días', vivo: d <= 7 };
+  }
+  pista.innerHTML = lista.map(({ e, n, nov }) => {
     const tag = e.enlace ? 'a' : 'div';
-    const img = e.imagen ? `<img src="${esc(e.imagen)}" alt="" loading="lazy">` : `<svg viewBox="0 0 100 100" aria-hidden="true">${GLIFOS[e.ilustracion] || ''}</svg>`;
+    const f = fechaGrande(e), st = estadoEv(e);
+    const cuerpo = e.imagen ? `<img src="${esc(e.imagen)}" alt="${esc(e.nombre)}" loading="lazy">` : `
+        <div class="vit-top">
+          ${nov ? '<span class="vit-nuevo">Nuevo</span>' : `<span class="vit-num">${String(n + 1).padStart(2, '0')}</span>`}
+          <svg class="vit-gl" viewBox="0 0 100 100" aria-hidden="true">${GLIFOS[e.ilustracion] || ''}</svg>
+        </div>
+        <div class="vit-fecha"><span class="vit-dia${f.pronto ? ' pronto' : ''}">${esc(f.dia)}</span><span class="vit-mes">${esc(f.mes)}</span></div>
+        <div class="vit-base"><span class="vit-nom">${esc(e.nombre)}</span>
+          <span class="vit-est${st.vivo ? ' vivo' : ''}"><i></i>${esc(st.t)}</span></div>`;
     return `<${tag} class="vit"${e.enlace ? ` href="${esc(e.enlace)}"` : ''}>
-      <div class="vit-img">${img}${nov ? '<span class="vit-nuevo">Nuevo</span>' : ''}</div>
-      <div class="vit-pie"><span class="vit-nom">${esc(e.nombre)}</span><span class="vit-fec">${esc(e.fecha)}</span></div>
-      ${nov ? `<span class="vit-nov">${esc(nov.titulo)}</span>` : ''}</${tag}>`;
+      <div class="vit-card">${cuerpo}</div>
+      </${tag}>`;
   }).join('');
   $('escNum').textContent = String(lista.length).padStart(2, '0');
 

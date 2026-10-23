@@ -132,6 +132,32 @@ button{font:inherit;color:inherit}
 .entrada:hover .en-ir{color:var(--ink)}
 .entradas.foco .entrada:not(:hover){opacity:.4 !important}
 
+/* ---------- Desplegables ---------- */
+.entradas{position:relative}
+.entrada.desp{transition:none}
+.entrada.desp:hover{transform:none}
+.entrada.abierta{z-index:6}
+.entrada.abierta .cuerpo{background:var(--warm)}
+.panel{position:absolute;top:100%;left:0;width:100%;padding-top:14px;cursor:default;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.1,1),visibility .35s}
+.entrada.abierta .panel{visibility:visible;opacity:1;transform:none}
+.panel-in{background:#fff;border:1px solid var(--ink);box-shadow:0 26px 60px -24px rgba(0,0,0,.35)}
+.panel-img img{display:block;width:100%;max-height:70vh;object-fit:contain;background:var(--warm)}
+.panel-vacio{display:grid;place-items:center;gap:8px;aspect-ratio:16/9;background:var(--warm);text-align:center;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--soft)}
+.panel-vacio em{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;letter-spacing:0;text-transform:none;color:var(--ink)}
+.agenda{padding:26px 28px 22px}
+.ag-cab{display:flex;align-items:baseline;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--ink)}
+.ag-dia{font-weight:200;font-size:56px;letter-spacing:-.04em;line-height:.9}
+.ag-mes{display:flex;flex-direction:column;gap:4px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft)}
+.ag-mes b{font-weight:400;color:var(--ink)}
+.ag-blq{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+.ag-blq:last-child{border-bottom:0;padding-bottom:4px}
+.ag-hora{font-weight:200;font-size:30px;letter-spacing:-.03em;line-height:1;position:relative}
+.ag-hora::after{content:"";position:absolute;left:0;top:40px;width:7px;height:7px;border-radius:50%;background:var(--acento)}
+.ag-tit{font-size:16px;font-weight:300;margin-bottom:10px}
+.ag-items{display:flex;flex-wrap:wrap;gap:6px}
+.ag-items span{font-size:11.5px;border:1px solid var(--line);padding:5px 10px 4px;border-radius:99px;background:#fff}
+.entrada.desp .en-ir{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+
 .pie{display:flex;justify-content:center;padding-bottom:12px}
 .pie a{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
 .pie a:hover{color:var(--ink);border-color:var(--ink)}
@@ -140,6 +166,12 @@ button{font:inherit;color:inherit}
   .volver-top{position:static;transform:none;display:block;margin-bottom:14px}
   .top{flex-direction:column;align-items:flex-start}
   .entradas{grid-template-columns:1fr;gap:20px}
+  .panel{position:static;grid-column:1 / -1;display:none;width:auto !important;padding-top:12px}
+  .entrada.abierta .panel{display:block}
+  .agenda{padding:20px 18px 16px}
+  .ag-blq{grid-template-columns:70px 1fr;gap:12px}
+  .ag-hora{font-size:24px}
+  .ag-hora::after{top:32px}
 }
 
 </style>
@@ -198,20 +230,34 @@ button{font:inherit;color:inherit}
 
 <script>
 /* =====================================================================
-   CONFIGURACIÓN DEL MERCADILLO SOLIDARIO — todo lo que se cambia está aquí
+   CONFIGURACIÓN DE LA FIESTA INFANTIL — todo lo que se cambia está aquí
    ===================================================================== */
 const CONFIG = {
 
   antetitulo: "Navidad 2026|20 de diciembre",   // "|" separa con una línea fina
   frase: "Fiesta *infantil*",                  // *palabra* = cursiva en rojo
 
-  // Apartados (cada uno es una entrada). enlace: vacío hasta que exista la página.
+  // Apartados (cada uno es una entrada).
+  //   despliega: "imagen" → al pasar el ratón se abre la imagen (campo imagen)
+  //   despliega: "agenda" → al pasar el ratón se abre la agenda de horarios (ver "agenda")
+  //   enlace: abre otra página o formulario. Vacío y sin despliegue → "Próximamente".
   apartados: [
-    { nombre: "Temática",          enlace: "" },
-    { nombre: "Fecha y horarios",  enlace: "" },
+    { nombre: "Temática",          despliega: "imagen", imagen: "" },   // ej. "img/tematica.jpg"
+    { nombre: "Fecha y horarios",  despliega: "agenda" },
     { nombre: "Elige tu peli",     enlace: "" },
     { nombre: "Inscripciones",     enlace: "" }
   ],
+
+  // Agenda de la fiesta (apartado "Fecha y horarios")
+  agenda: {
+    fecha: "2026-12-20",
+    bloques: [
+      { hora: "10:30", titulo: "Comienza la fiesta",
+        items: ["Barra libre de chucherías", "Zona baby", "Personajes de animación", "Papá Noel", "Photocall"] },
+      { hora: "11:15", titulo: "Proyección de películas",
+        items: ["Proyección de las distintas películas"] }
+    ]
+  },
 
   asistente: {
     nombre: "Noa",
@@ -256,16 +302,63 @@ const CONFIG = {
 
   /* ---------- Entradas ---------- */
   const caja = $('entradas');
+  const toque = matchMedia('(hover: none), (max-width: 760px)');
+  function agendaHTML() {
+    const G = CONFIG.agenda, d = parse(G.fecha);
+    const dia = new Intl.DateTimeFormat('es-ES', { weekday:'long' }).format(d);
+    const mes = new Intl.DateTimeFormat('es-ES', { month:'long', year:'numeric' }).format(d).replace(' de ', ' ');
+    return `<div class="agenda">
+      <div class="ag-cab"><span class="ag-dia">${d.getDate()}</span><span class="ag-mes"><b>${esc(dia)}</b>${esc(mes)}</span></div>
+      ${G.bloques.map(b => `<div class="ag-blq"><span class="ag-hora">${esc(b.hora)}</span>
+        <div><div class="ag-tit">${esc(b.titulo)}</div><div class="ag-items">${(b.items || []).map(t => `<span>${esc(t)}</span>`).join('')}</div></div></div>`).join('')}
+    </div>`;
+  }
+  function panelHTML(a) {
+    if (a.despliega === 'agenda') return agendaHTML();
+    if (a.despliega === 'imagen') return a.imagen
+      ? `<div class="panel-img"><img src="${esc(a.imagen)}" alt="${esc(a.nombre)}"></div>`
+      : `<div class="panel-vacio"><span><em>${esc(a.nombre)}</em><br><br>Imagen próximamente</span></div>`;
+    return '';
+  }
   caja.innerHTML = CONFIG.apartados.map((a, n) => {
-    const tag = a.enlace ? 'a' : 'div';
-    return `<${tag} class="entrada${a.enlace ? '' : ' pronto'}" style="animation-delay:${1 + n * .12}s"${a.enlace ? ` href="${esc(a.enlace)}"` : ''}>
+    const desp = !!a.despliega;
+    const tag = a.enlace && !desp ? 'a' : 'div';
+    const ir = desp ? (toque.matches ? 'Toca para ver ↓' : 'Ver ↓') : a.enlace ? '→' : 'Próximamente';
+    const ext = a.enlace && /^https?:/.test(a.enlace) ? ' target="_blank" rel="noopener"' : '';
+    return `<${tag} class="entrada${desp ? ' desp' : a.enlace ? '' : ' pronto'}" style="animation-delay:${1 + n * .12}s"${tag === 'a' ? ` href="${esc(a.enlace)}"${ext}` : ''}${desp ? ` data-n="${n}" tabindex="0" aria-expanded="false"` : ''}>
       <span class="talon"><span>${String(n + 1).padStart(2, '0')}</span></span>
       <span class="cuerpo">
         <span class="en-sup">Fiesta infantil · 20 dic</span>
         <span class="en-nom">${esc(a.nombre)}</span>
-        <span class="en-ir">${a.enlace ? '→' : 'Próximamente'}</span>
-      </span></${tag}>`;
+        <span class="en-ir">${ir}</span>
+      </span>
+      ${desp ? `<div class="panel"><div class="panel-in">${panelHTML(a)}</div></div>` : ''}</${tag}>`;
   }).join('');
+
+  // El panel ocupa el ancho de las dos columnas, empezando bajo su entrada
+  function colocar(ent) {
+    const pnl = ent.querySelector('.panel'); if (!pnl || toque.matches) return;
+    pnl.style.left = (-ent.offsetLeft) + 'px';
+    pnl.style.width = caja.clientWidth + 'px';
+  }
+  function abrirPanel(ent) {
+    caja.querySelectorAll('.entrada.abierta').forEach(e => { if (e !== ent) cerrarPanel(e); });
+    colocar(ent); ent.classList.add('abierta'); ent.setAttribute('aria-expanded', 'true');
+    if (typeof cerrarCartel === 'function') cerrarCartel();
+  }
+  function cerrarPanel(ent) { ent.classList.remove('abierta'); ent.setAttribute('aria-expanded', 'false'); }
+  caja.querySelectorAll('.entrada.desp').forEach(ent => {
+    ent.addEventListener('mouseenter', () => { if (!toque.matches) abrirPanel(ent); });
+    ent.addEventListener('mouseleave', () => { if (!toque.matches) cerrarPanel(ent); });
+    ent.addEventListener('click', e => {
+      if (!toque.matches || e.target.closest('.panel')) return;
+      ent.classList.contains('abierta') ? cerrarPanel(ent) : abrirPanel(ent);
+    });
+    ent.addEventListener('focus', () => { if (!toque.matches) abrirPanel(ent); });
+    ent.addEventListener('blur', () => { if (!toque.matches) cerrarPanel(ent); });
+  });
+  addEventListener('resize', () => caja.querySelectorAll('.entrada.abierta').forEach(colocar));
+
   caja.addEventListener('mouseenter', () => { caja.classList.add('foco'); if (typeof cerrarCartel === 'function') cerrarCartel(); });
   caja.addEventListener('mouseleave', () => caja.classList.remove('foco'));
 
