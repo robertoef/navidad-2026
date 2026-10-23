@@ -133,6 +133,19 @@ button{font:inherit;color:inherit}
 .ropa.pronto .et-ir{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
 .burra.foco .ropa:not(:hover) .etiqueta{opacity:.4;transition:opacity .35s,background .4s}
 
+/* ---------- Cartel a pantalla completa ---------- */
+.visor{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:56px 16px 24px;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+.visor.on{opacity:1;visibility:visible}
+.visor-x{position:absolute;top:14px;right:18px;background:none;border:0;cursor:pointer;font-size:30px;font-weight:200;line-height:1;color:var(--ink);padding:6px 10px}
+.visor-cartel{display:block;position:relative;max-height:calc(100svh - 150px);max-width:min(560px,100%);box-shadow:0 30px 70px rgba(0,0,0,.22);transform:translateY(16px) scale(.97);transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.visor.on .visor-cartel{transform:none}
+.visor-cartel img{display:block;max-height:calc(100svh - 150px);max-width:100%;width:auto;height:auto}
+.visor-cartel:hover{box-shadow:0 34px 80px rgba(0,0,0,.3)}
+.visor-btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;text-decoration:none;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:14px 26px;transition:background .3s}
+.visor-btn:hover{background:var(--acento)}
+.visor-nota{font-size:10.5px;color:var(--soft);letter-spacing:.04em}
+body.bloq{overflow:hidden}
+
 .pie{display:flex;justify-content:center;padding-bottom:12px}
 .pie a{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
 .pie a:hover{color:var(--ink);border-color:var(--ink)}
@@ -167,6 +180,13 @@ button{font:inherit;color:inherit}
   <nav class="burra" id="burra" aria-label="Apartados del Mercadillo Solidario"></nav>
 
   <footer class="pie"><a href="index.html">Volver a Navidad 2026</a></footer>
+</div>
+
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Cartel">
+  <button class="visor-x" id="visorX" aria-label="Cerrar">×</button>
+  <a class="visor-cartel" id="visorCartel" target="_blank" rel="noopener"><img id="visorImg" alt=""></a>
+  <a class="visor-btn" id="visorBtn" target="_blank" rel="noopener">Apúntate aquí →</a>
+  <span class="visor-nota">Pulsa el cartel o el botón para abrir el formulario</span>
 </div>
 
 <!-- Asistente -->
@@ -212,9 +232,11 @@ const CONFIG = {
   frase: "Mercadillo *Solidario*",                        // *palabra* = cursiva en rojo
 
   // Apartados (cada uno cuelga de una percha). enlace: vacío hasta que exista la página.
+  // cartel: si lo tiene, al pulsar se abre el cartel a pantalla completa; pulsar el cartel abre "enlace".
+  // id: permite enlazar directamente al cartel (ej. mercadillo.html#solidary-talent).
   apartados: [
     { nombre: "Hazte voluntario",       enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUMDVaOUY4VlVQRDRET0o4Njc0SUdURFlJQy4u" },
-    { nombre: "Solidary Talent",        enlace: "" },
+    { nombre: "Solidary Talent",        id: "solidary-talent", cartel: "img/solidary-talent.jpg", enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUQkZMWDVVM0FNTlk4SU80OTRZMk5VUjlaMC4u" },
     { nombre: "Percha Zero",            enlace: "" },
     { nombre: "Reservas Mercadillo",    enlace: "" },
     { nombre: "Lotes Zara Home",        enlace: "" },
@@ -266,18 +288,47 @@ const CONFIG = {
   const PERCHA = '<svg class="percha" viewBox="0 0 120 64" aria-hidden="true"><path d="M53 11 C53 2 67 2 67 11 C67 16 60 17 60 23"/><path d="M60 23 L14 47 H106 Z"/><path d="M60 47 V64"/></svg>';
   const burra = $('burra');
   burra.innerHTML = CONFIG.apartados.map((a, n) => {
-    const tag = a.enlace ? 'a' : 'div';
-    return `<${tag} class="ropa${a.enlace ? '' : ' pronto'}"${a.enlace ? ` href="${esc(a.enlace)}"${/^https?:/.test(a.enlace) ? ' target="_blank" rel="noopener"' : ''}` : ''}>
+    const tag = a.enlace || a.cartel ? 'a' : 'div';
+    const attrs = a.cartel ? ` href="#${esc(a.id || 'cartel-' + n)}" data-cartel="${n}"`
+      : a.enlace ? ` href="${esc(a.enlace)}"${/^https?:/.test(a.enlace) ? ' target="_blank" rel="noopener"' : ''}` : '';
+    return `<${tag} class="ropa${a.enlace || a.cartel ? '' : ' pronto'}"${attrs}>
       <div class="colgante" style="animation-delay:${1 + n * .12}s">${PERCHA}
         <div class="etiqueta">
           <span class="et-num">${String(n + 1).padStart(2, '0')}</span>
           <span class="et-nom">${esc(a.nombre)}</span>
-          <span class="et-ir">${a.enlace ? '→' : 'Próximamente'}</span>
+          <span class="et-ir">${a.enlace || a.cartel ? '→' : 'Próximamente'}</span>
         </div>
       </div></${tag}>`;
   }).join('');
   burra.addEventListener('mouseenter', () => { burra.classList.add('foco'); if (typeof cerrarCartel === 'function') cerrarCartel(); });
   burra.addEventListener('mouseleave', () => burra.classList.remove('foco'));
+
+  /* ---------- Visor de carteles ---------- */
+  const visor = $('visor');
+  function abrirCartel(n) {
+    const a = CONFIG.apartados[n]; if (!a || !a.cartel) return;
+    $('visorImg').src = a.cartel; $('visorImg').alt = 'Cartel ' + a.nombre;
+    ['visorCartel', 'visorBtn'].forEach(id => { const el = $(id); if (a.enlace) el.href = a.enlace; else el.removeAttribute('href'); });
+    $('visorBtn').style.display = a.enlace ? '' : 'none';
+    document.querySelector('.visor-nota').style.display = a.enlace ? '' : 'none';
+    visor.classList.add('on'); document.body.classList.add('bloq');
+    if (typeof cerrarCartel === 'function') cerrarCartel();
+    $('visorX').focus();
+  }
+  function cerrarVisor() {
+    visor.classList.remove('on'); document.body.classList.remove('bloq');
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  }
+  burra.addEventListener('click', e => {
+    const r = e.target.closest('[data-cartel]'); if (!r) return;
+    e.preventDefault(); history.replaceState(null, '', r.getAttribute('href')); abrirCartel(+r.dataset.cartel);
+  });
+  $('visorX').onclick = cerrarVisor;
+  visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && visor.classList.contains('on')) cerrarVisor(); });
+  // Enlace directo: mercadillo.html#solidary-talent abre el cartel al entrar
+  const directo = CONFIG.apartados.findIndex(a => a.cartel && a.id && '#' + a.id === location.hash);
+  if (directo >= 0) setTimeout(() => abrirCartel(directo), 400);
 
   /* ---------- Asistente ---------- */
   let cerrarCartel = null;
