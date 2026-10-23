@@ -251,7 +251,7 @@ const CONFIG = {
   //   despliega: "agenda" → al pasar el ratón se abre la agenda de horarios (ver "agenda")
   //   enlace: abre otra página o formulario. Vacío y sin despliegue → "Próximamente".
   apartados: [
-    { nombre: "Temática",          despliega: "imagen", imagen: "" },   // ej. "img/tematica.jpg"
+    { nombre: "Temática",          despliega: "imagen", imagen: "img/tematica.jpg" },   // sube la imagen a la carpeta img con ese nombre exacto
     { nombre: "Fecha y horarios",  despliega: "agenda" },
     { nombre: "Elige tu peli",     enlace: "" },
     { nombre: "Inscripciones",     enlace: "" }
@@ -326,7 +326,7 @@ const CONFIG = {
   function panelHTML(a) {
     if (a.despliega === 'agenda') return agendaHTML();
     if (a.despliega === 'imagen') return a.imagen
-      ? `<div class="panel-img"><img src="${esc(a.imagen)}" alt="${esc(a.nombre)}"></div>`
+      ? `<div class="panel-img"><img src="${esc(a.imagen)}" alt="${esc(a.nombre)}" onerror="this.parentNode.outerHTML='<div class=&quot;panel-vacio&quot;><span><em>${esc(a.nombre)}</em><br><br>Imagen próximamente</span></div>'"></div>`
       : `<div class="panel-vacio"><span><em>${esc(a.nombre)}</em><br><br>Imagen próximamente</span></div>`;
     return '';
   }
