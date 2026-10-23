@@ -138,24 +138,30 @@ button{font:inherit;color:inherit}
 .entrada.desp:hover{transform:none}
 .entrada.abierta{z-index:6}
 .entrada.abierta .cuerpo{background:var(--warm)}
-.panel{position:absolute;top:100%;left:0;width:100%;padding-top:14px;cursor:default;visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.1,1),visibility .35s}
-.entrada.abierta .panel{visibility:visible;opacity:1;transform:none}
-.panel-in{background:#fff;border:1px solid var(--ink);box-shadow:0 26px 60px -24px rgba(0,0,0,.35)}
-.panel-img img{display:block;width:100%;max-height:70vh;object-fit:contain;background:var(--warm)}
-.panel-vacio{display:grid;place-items:center;gap:8px;aspect-ratio:16/9;background:var(--warm);text-align:center;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--soft)}
-.panel-vacio em{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;letter-spacing:0;text-transform:none;color:var(--ink)}
-.agenda{padding:26px 28px 22px}
-.ag-cab{display:flex;align-items:baseline;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--ink)}
-.ag-dia{font-weight:200;font-size:56px;letter-spacing:-.04em;line-height:.9}
-.ag-mes{display:flex;flex-direction:column;gap:4px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft)}
-.ag-mes b{font-weight:400;color:var(--ink)}
-.ag-blq{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
-.ag-blq:last-child{border-bottom:0;padding-bottom:4px}
-.ag-hora{font-weight:200;font-size:30px;letter-spacing:-.03em;line-height:1;position:relative}
-.ag-hora::after{content:"";position:absolute;left:0;top:40px;width:7px;height:7px;border-radius:50%;background:var(--acento)}
-.ag-tit{font-size:16px;font-weight:300;margin-bottom:10px}
-.ag-items{display:flex;flex-wrap:wrap;gap:6px}
-.ag-items span{font-size:11.5px;border:1px solid var(--line);padding:5px 10px 4px;border-radius:99px;background:#fff}
+.panel{position:absolute;top:100%;left:0;width:100%;padding-top:16px;cursor:default;visibility:hidden;transition:visibility 0s .6s}
+.entrada.abierta .panel{visibility:visible;transition:none}
+.panel-in{background:var(--ink);color:#f3efe9;box-shadow:0 40px 90px -30px rgba(0,0,0,.55);clip-path:inset(0 0 100% 0);transition:clip-path .7s cubic-bezier(.7,0,.2,1)}
+.entrada.abierta .panel-in{clip-path:inset(0 0 0 0)}
+.panel-in > *{opacity:0;transform:translateY(14px);transition:opacity .4s,transform .7s cubic-bezier(.2,.7,.1,1)}
+.entrada.abierta .panel-in > *{opacity:1;transform:none;transition-delay:.25s}
+.panel-img img{display:block;width:100%;max-height:78vh;object-fit:contain;background:var(--ink)}
+.panel-vacio{display:grid;place-items:center;aspect-ratio:16/8;text-align:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(243,239,233,.6)}
+.panel-vacio em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(48px,6vw,88px);letter-spacing:-.01em;text-transform:none;color:#f3efe9;line-height:1}
+.agenda{display:grid;grid-template-columns:minmax(220px,.8fr) 2fr;gap:clamp(28px,5vw,72px);padding:clamp(32px,5vw,64px)}
+.ag-cab{display:flex;flex-direction:column;gap:14px;padding-right:clamp(20px,3vw,48px);border-right:1px solid rgba(243,239,233,.25)}
+.ag-dia{font-weight:200;font-size:clamp(110px,13vw,190px);letter-spacing:-.06em;line-height:.8}
+.ag-mes{display:flex;flex-direction:column;gap:6px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(243,239,233,.6)}
+.ag-mes b{font-weight:400;color:#f3efe9;font-size:12px}
+.ag-lugar{margin-top:auto;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:26px;line-height:1.1;color:#e3b7ba}
+.ag-lista{display:flex;flex-direction:column}
+.ag-blq{display:grid;grid-template-columns:clamp(110px,11vw,170px) 1fr;gap:24px;padding:22px 0;border-bottom:1px solid rgba(243,239,233,.18)}
+.ag-blq:first-child{padding-top:4px}
+.ag-blq:last-child{border-bottom:0;padding-bottom:0}
+.ag-hora{font-weight:200;font-size:clamp(44px,5vw,72px);letter-spacing:-.04em;line-height:.9;position:relative}
+.ag-hora::before{content:"";position:absolute;left:-18px;top:.35em;width:8px;height:8px;border-radius:50%;background:var(--acento);box-shadow:0 0 0 4px rgba(155,28,37,.25)}
+.ag-tit{font-size:clamp(18px,1.7vw,24px);font-weight:300;margin-bottom:14px;line-height:1.2}
+.ag-items{display:flex;flex-wrap:wrap;gap:8px}
+.ag-items span{font-size:12px;border:1px solid rgba(243,239,233,.35);padding:7px 13px 6px;border-radius:99px}
 .entrada.desp .en-ir{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
 
 .pie{display:flex;justify-content:center;padding-bottom:12px}
@@ -168,10 +174,13 @@ button{font:inherit;color:inherit}
   .entradas{grid-template-columns:1fr;gap:20px}
   .panel{position:static;grid-column:1 / -1;display:none;width:auto !important;padding-top:12px}
   .entrada.abierta .panel{display:block}
-  .agenda{padding:20px 18px 16px}
-  .ag-blq{grid-template-columns:70px 1fr;gap:12px}
-  .ag-hora{font-size:24px}
-  .ag-hora::after{top:32px}
+  .agenda{grid-template-columns:1fr;gap:22px;padding:28px 22px}
+  .ag-cab{flex-direction:row;align-items:flex-end;gap:16px;padding:0 0 18px;border-right:0;border-bottom:1px solid rgba(243,239,233,.25)}
+  .ag-dia{font-size:96px}
+  .ag-lugar{display:none}
+  .ag-blq{grid-template-columns:1fr;gap:10px;padding:18px 0 18px 18px}
+  .ag-hora{font-size:44px}
+  .ag-hora::before{left:-18px}
 }
 
 </style>
@@ -251,6 +260,7 @@ const CONFIG = {
   // Agenda de la fiesta (apartado "Fecha y horarios")
   agenda: {
     fecha: "2026-12-20",
+    lema: "¡Os esperamos!",   // frase opcional bajo la fecha (vacía = no se muestra)
     bloques: [
       { hora: "10:30", titulo: "Comienza la fiesta",
         items: ["Barra libre de chucherías", "Zona baby", "Personajes de animación", "Papá Noel", "Photocall"] },
@@ -308,9 +318,9 @@ const CONFIG = {
     const dia = new Intl.DateTimeFormat('es-ES', { weekday:'long' }).format(d);
     const mes = new Intl.DateTimeFormat('es-ES', { month:'long', year:'numeric' }).format(d).replace(' de ', ' ');
     return `<div class="agenda">
-      <div class="ag-cab"><span class="ag-dia">${d.getDate()}</span><span class="ag-mes"><b>${esc(dia)}</b>${esc(mes)}</span></div>
-      ${G.bloques.map(b => `<div class="ag-blq"><span class="ag-hora">${esc(b.hora)}</span>
-        <div><div class="ag-tit">${esc(b.titulo)}</div><div class="ag-items">${(b.items || []).map(t => `<span>${esc(t)}</span>`).join('')}</div></div></div>`).join('')}
+      <div class="ag-cab"><span class="ag-dia">${d.getDate()}</span><span class="ag-mes"><b>${esc(dia)}</b>${esc(mes)}</span>${G.lema ? `<span class="ag-lugar">${esc(G.lema)}</span>` : ''}</div>
+      <div class="ag-lista">${G.bloques.map(b => `<div class="ag-blq"><span class="ag-hora">${esc(b.hora)}</span>
+        <div><div class="ag-tit">${esc(b.titulo)}</div><div class="ag-items">${(b.items || []).map(t => `<span>${esc(t)}</span>`).join('')}</div></div></div>`).join('')}</div>
     </div>`;
   }
   function panelHTML(a) {
@@ -338,8 +348,10 @@ const CONFIG = {
   // El panel ocupa el ancho de las dos columnas, empezando bajo su entrada
   function colocar(ent) {
     const pnl = ent.querySelector('.panel'); if (!pnl || toque.matches) return;
-    pnl.style.left = (-ent.offsetLeft) + 'px';
-    pnl.style.width = caja.clientWidth + 'px';
+    // Ancho grande (hasta 1100 px), centrado en la pantalla
+    const w = Math.min(1100, document.documentElement.clientWidth - 32);
+    pnl.style.width = w + 'px';
+    pnl.style.left = ((document.documentElement.clientWidth - w) / 2 - ent.getBoundingClientRect().left) + 'px';
   }
   function abrirPanel(ent) {
     caja.querySelectorAll('.entrada.abierta').forEach(e => { if (e !== ent) cerrarPanel(e); });
