@@ -112,7 +112,7 @@ button{font:inherit;color:inherit}
 .frase{font-size:clamp(40px,6.4vw,104px)}
 
 /* ---------- Entradas ---------- */
-.entradas{width:min(620px,100%);margin:clamp(40px,7vh,80px) auto clamp(64px,11vh,120px);display:grid;grid-template-columns:repeat(2,1fr);gap:96px 32px}
+.entradas{width:min(620px,100%);margin:0 auto clamp(64px,11vh,120px);display:grid;grid-template-columns:repeat(2,1fr);gap:28px 32px}
 .entrada{position:relative;display:grid;grid-template-columns:62px 1fr;min-height:128px;text-decoration:none;color:inherit;cursor:pointer;opacity:0;animation:llega .9s cubic-bezier(.2,.7,.1,1) forwards;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
 @keyframes llega{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .talon,.cuerpo{border:1px solid var(--ink);background:#fff;transition:background .4s,transform .5s cubic-bezier(.2,.7,.1,1)}
@@ -185,56 +185,6 @@ button{font:inherit;color:inherit}
 .peli-datos .edad{background:#f3efe9;color:var(--ink);border-color:#f3efe9;font-weight:500}
 .entrada.desp .en-ir{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
 
-/* ---------- Papá Noel ---------- */
-.santa{position:absolute;left:0;top:0;z-index:5;width:84px;height:101px;cursor:pointer;opacity:0;transition:opacity .6s;will-change:transform;-webkit-tap-highlight-color:transparent}
-.santa.visible{opacity:1}
-.santa-mueve{width:100%;height:100%;transform-origin:50% 100%;transition:transform .18s cubic-bezier(.3,.7,.4,1)}
-.santa-cuerpo{width:100%;height:100%;transform-origin:50% 100%;transition:transform .4s cubic-bezier(.3,.7,.4,1)}
-.santa.izq .santa-cuerpo{transform:scaleX(-1)}
-.santa svg{display:block;width:100%;height:100%;overflow:visible}
-.santa .tr{stroke:#1c1c1c;stroke-width:1;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.santa svg g{transform-box:view-box}
-/* respiración y cabeza: siempre, muy suave */
-.sn-torso{transform-origin:50px 95px;animation:sn-respira 3.2s ease-in-out infinite}
-@keyframes sn-respira{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.022)}}
-.sn-cabeza{transform-origin:49px 46px;animation:sn-cabeza 4.6s ease-in-out infinite}
-@keyframes sn-cabeza{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2.5deg)}}
-.sn-ojos{transform-origin:49px 31.6px;animation:sn-parpadeo 4.2s infinite}
-@keyframes sn-parpadeo{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
-.sn-ojos-rie{display:none}
-.sn-boca{transform-origin:49px 43px;transform:scale(.6,.4)}
-.sn-saco{transform-origin:66px 46px;animation:sn-saco 3.2s ease-in-out infinite}
-@keyframes sn-saco{0%,100%{transform:rotate(0)}50%{transform:rotate(1.5deg)}}
-/* brazo: reposo casi abajo; al saludar se mueve la mano */
-.sn-brazo-saluda{transform-origin:35px 50px;transform:rotate(-128deg);transition:transform .5s cubic-bezier(.3,.7,.4,1)}
-.santa.saluda .sn-brazo-saluda{transform:rotate(0);animation:sn-saluda .55s .45s ease-in-out 4 alternate}
-@keyframes sn-saluda{from{transform:rotate(0)}to{transform:rotate(-16deg)}}
-/* andar */
-.sn-pierna{transform-origin:center 92px}
-.sn-pierna.i{transform-origin:42px 92px}.sn-pierna.d{transform-origin:58px 92px}
-.santa.anda .sn-pierna.i{animation:sn-paso .46s ease-in-out infinite alternate}
-.santa.anda .sn-pierna.d{animation:sn-paso .46s ease-in-out infinite alternate-reverse}
-@keyframes sn-paso{from{transform:rotate(13deg)}to{transform:rotate(-13deg)}}
-.santa.anda .sn-torso{animation:sn-bote .23s ease-in-out infinite alternate}
-@keyframes sn-bote{from{transform:translateY(0)}to{transform:translateY(-1.8px)}}
-/* reírse */
-.santa.rie .sn-ojos{display:none}
-.santa.rie .sn-ojos-rie{display:inline}
-.santa.rie .sn-boca{transform:scale(1)}
-.santa.rie .sn-cabeza{animation:sn-cabeza-rie .5s ease-in-out infinite alternate}
-@keyframes sn-cabeza-rie{from{transform:rotate(-6deg) translateY(-1px)}to{transform:rotate(-2deg) translateY(.5px)}}
-.santa.rie .sn-torso{animation:sn-barriga .16s ease-in-out infinite alternate}
-@keyframes sn-barriga{from{transform:scale(1,1)}to{transform:scale(1.03,.975)}}
-/* salto: se agacha, se estira en el aire y amortigua al caer */
-.santa.agacha .santa-mueve{transform:scale(1.1,.84)}
-.santa.vuela .santa-mueve{transform:scale(.94,1.08)}
-.santa.vuela .sn-pierna.i{transform:rotate(-14deg)}.santa.vuela .sn-pierna.d{transform:rotate(12deg)}
-.santa.cae .santa-mueve{transform:scale(1.12,.86)}
-.santa-bocadillo{position:absolute;left:50%;bottom:100%;margin-bottom:-2px;transform:translate(-50%,6px);white-space:nowrap;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:20px;color:var(--acento);opacity:0;transition:opacity .3s,transform .3s;pointer-events:none}
-.santa.rie .santa-bocadillo{opacity:1;transform:translate(-50%,0)}
-@media (max-width:760px){.santa{width:70px;height:84px}.santa-bocadillo{font-size:17px}}
-@media (prefers-reduced-motion:reduce){.santa *{animation:none !important}}
-
 .pie{display:flex;justify-content:center;padding-bottom:12px}
 .pie a{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
 .pie a:hover{color:var(--ink);border-color:var(--ink)}
@@ -242,7 +192,7 @@ button{font:inherit;color:inherit}
 @media (max-width:760px){
   .volver-top{position:static;transform:none;display:block;margin-bottom:14px}
   .top{flex-direction:column;align-items:flex-start}
-  .entradas{grid-template-columns:1fr;gap:76px}
+  .entradas{grid-template-columns:1fr;gap:20px}
   .panel{position:static;grid-column:1 / -1;display:none;width:auto !important;padding-top:12px}
   .entrada.abierta .panel{display:block}
   .agenda{grid-template-columns:1fr;gap:22px;padding:28px 22px}
@@ -277,77 +227,6 @@ button{font:inherit;color:inherit}
   <nav class="entradas" id="entradas" aria-label="Apartados de la Fiesta infantil"></nav>
 
   <footer class="pie"><a href="index.html">Volver a Navidad 2026</a></footer>
-</div>
-
-<div class="santa" id="santa" role="img" aria-label="Papá Noel animado">
-  <span class="santa-bocadillo">¡Jo, jo, jo!</span>
-  <div class="santa-mueve"><div class="santa-cuerpo">
-  <svg viewBox="0 0 100 120" aria-hidden="true">
-<g class="sn-todo">
-  <!-- saco a la espalda -->
-  <g class="sn-saco">
-    <path class="tr" fill="#d8bf95" d="M64 44 C78 36 94 46 93 64 C92 80 82 88 70 86 C62 85 58 78 60 68 C61 60 58 52 64 44 Z"/>
-    <path class="tr" fill="none" d="M72 52 q6 6 4 16 M82 60 q3 8 -2 16"/>
-    <path class="tr" fill="#c9ad7e" d="M62 44 q3 -6 9 -4 q-2 4 -9 4 Z"/>
-  </g>
-  <!-- piernas y botas -->
-  <g class="sn-pierna i">
-    <path class="tr" fill="#b3262f" d="M36 92 L48 92 L47.5 106 L36.5 106 Z"/>
-    <path class="tr" fill="#1c1c1c" d="M36 104 L48 104 L48 113 Q48 118 43 118 L29 118 Q25.5 118 26.5 114.5 Q28 111.5 35 111 Z"/>
-  </g>
-  <g class="sn-pierna d">
-    <path class="tr" fill="#b3262f" d="M52 92 L64 92 L63.5 106 L52.5 106 Z"/>
-    <path class="tr" fill="#1c1c1c" d="M52 104 L64 104 L65 111 Q72 111.5 73.5 114.5 Q74.5 118 71 118 L57 118 Q52 118 52 113 Z"/>
-  </g>
-  <g class="sn-torso">
-    <!-- abrigo -->
-    <path class="tr" fill="#b3262f" d="M35 51 Q23 58 24 78 L25.5 92 L74.5 92 L76 78 Q77 58 65 51 Q50 47 35 51 Z"/>
-    <path class="tr" fill="#fbf8f2" d="M46.5 60 L53.5 60 L53.5 90 L46.5 90 Z"/>
-    <path class="tr" fill="none" d="M47.5 66 q1 2 0 4 M52 74 q-1 2 0 4 M48 84 q1 2 0 3"/>
-    <path class="tr" fill="#1c1c1c" d="M24.6 74 Q50 79 75.4 74 L75.6 80 Q50 85 24.4 80 Z"/>
-    <rect x="44.5" y="75.2" width="11" height="8" rx="1.6" fill="#1c1c1c" stroke="#e0b44e" stroke-width="1.3"/>
-    <path class="tr" fill="#fbf8f2" d="M23.5 89.0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q2.94 -1.50 5.89 0 q1.50 3.00 0 6.00 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-2.94 1.50 -5.89 0 q-1.50 -3.00 0 -6.00 Z"/>
-    <!-- brazo que sujeta el saco -->
-    <g class="sn-brazo-saco">
-      <path class="tr" fill="#b3262f" d="M64 52 Q74 56 72 66 L66 66 Q67 59 61 57 Z"/>
-      <path class="tr" fill="#fbf8f2" d="M64.5 64.0 q1.50 -1.10 3.00 0 q1.50 -1.10 3.00 0 q1.50 -1.10 3.00 0 q1.10 2.25 0 4.50 q-1.50 1.10 -3.00 0 q-1.50 1.10 -3.00 0 q-1.50 1.10 -3.00 0 q-1.10 -2.25 0 -4.50 Z"/>
-      <path class="tr" fill="#fbf8f2" d="M65 68 Q64 74 68 75 Q73 75.5 73 70 Q73 67 69 67 Z"/>
-    </g>
-    <!-- cabeza -->
-    <g class="sn-cabeza">
-      <path class="tr" fill="#fbf8f2" d="M42.10 34.00 Q42.64 36.47 40.37 37.60 Q38.77 39.56 36.48 38.48 Q33.95 38.46 33.36 36.00 Q31.80 34.00 33.36 32.00 Q33.95 29.54 36.48 29.52 Q38.77 28.44 40.37 30.40 Q42.64 31.53 42.10 34.00 Z"/>
-      <path class="tr" fill="#fbf8f2" d="M65.10 34.00 Q65.64 36.47 63.37 37.60 Q61.77 39.56 59.48 38.48 Q56.95 38.46 56.36 36.00 Q54.80 34.00 56.36 32.00 Q56.95 29.54 59.48 29.52 Q61.77 28.44 63.37 30.40 Q65.64 31.53 65.10 34.00 Z"/>
-      <ellipse class="tr" fill="#f5dccb" cx="49" cy="33" rx="9.5" ry="9.8"/>
-      <g class="sn-ojos">
-        <ellipse cx="45.2" cy="31.6" rx="1.25" ry="1.6" fill="#1c1c1c"/>
-        <ellipse cx="52.8" cy="31.6" rx="1.25" ry="1.6" fill="#1c1c1c"/>
-      </g>
-      <g class="sn-ojos-rie">
-        <path class="tr" fill="none" d="M43.6 32 Q45.2 30 46.8 32"/><path class="tr" fill="none" d="M51.2 32 Q52.8 30 54.4 32"/>
-      </g>
-      <path class="tr" fill="#fbf8f2" d="M42.6 28.4 Q45 26.6 47.2 28 M50.8 28 Q53 26.6 55.4 28.4"/>
-      <circle cx="43" cy="35.6" r="2" fill="#efb3ab"/><circle cx="55" cy="35.6" r="2" fill="#efb3ab"/>
-      <!-- barba -->
-      <path class="tr" fill="#fbf8f2" d="M38.5 33 Q37 44 39 50 Q41 57 46 62 Q48.5 66 50 70 Q51.5 66 54 62 Q59 57 61 50 Q63 44 59.5 33 Q58 40 53 41.5 Q49 42.6 45 41.5 Q40 40 38.5 33 Z"/>
-      <path class="tr" fill="none" d="M44 48 q2 3 1 6 M53 49 q-2 3 -1 6 M49 55 q1 3 0 6"/>
-      <ellipse class="sn-boca" cx="49" cy="43.4" rx="2.4" ry="1.4" fill="#7a2a2a" stroke="#1c1c1c" stroke-width="1" vector-effect="non-scaling-stroke"/>
-      <path class="tr" fill="#fbf8f2" d="M49 39.6 Q44.5 36.6 41 40 Q42 42.6 45.5 41.6 Q47.5 41 49 40.6 Q50.5 41 52.5 41.6 Q56 42.6 57 40 Q53.5 36.6 49 39.6 Z"/>
-      <circle class="tr" fill="#e8a49a" cx="49" cy="37.4" r="2.2"/>
-      <!-- gorro -->
-      <path class="tr" fill="#b3262f" d="M38 26 C38 12 50 4 62 8 C71 11 76 21 75 32 L69.5 31 C69.5 24 66.5 19 61.5 18.5 L61 26 Z"/>
-      <path class="tr" fill="#fbf8f2" d="M36.5 23.5 q2.12 -1.40 4.25 0 q2.12 -1.40 4.25 0 q2.12 -1.40 4.25 0 q2.12 -1.40 4.25 0 q2.12 -1.40 4.25 0 q2.12 -1.40 4.25 0 q1.40 3.00 0 6.00 q-2.12 1.40 -4.25 0 q-2.12 1.40 -4.25 0 q-2.12 1.40 -4.25 0 q-2.12 1.40 -4.25 0 q-2.12 1.40 -4.25 0 q-2.12 1.40 -4.25 0 q-1.40 -3.00 0 -6.00 Z"/>
-      <path class="tr" fill="#fbf8f2" d="M76.90 34.50 Q77.77 36.68 75.61 37.61 Q74.68 39.77 72.50 38.90 Q70.32 39.77 69.39 37.61 Q67.23 36.68 68.10 34.50 Q67.23 32.32 69.39 31.39 Q70.32 29.23 72.50 30.10 Q74.68 29.23 75.61 31.39 Q77.77 32.32 76.90 34.50 Z"/>
-    </g>
-    <!-- brazo que saluda (hombro en 33,55) -->
-    <g class="sn-brazo-saluda">
-      <path class="tr" fill="#b3262f" d="M36 52 Q26 50 21 38 L27.5 35.5 Q30.5 45 37.5 46 Z"/>
-      <path class="tr" fill="#fbf8f2" d="M19.5 33.0 q1.58 -1.10 3.17 0 q1.58 -1.10 3.17 0 q1.58 -1.10 3.17 0 q1.10 2.25 0 4.50 q-1.58 1.10 -3.17 0 q-1.58 1.10 -3.17 0 q-1.58 1.10 -3.17 0 q-1.10 -2.25 0 -4.50 Z" transform="rotate(-22 24 35)"/>
-      <path class="tr" fill="#fbf8f2" d="M19 33 Q15 30 15.5 24 Q16 19.5 20.5 19 Q22.5 19 23 21 L24 17.5 Q26.5 16.5 27 19.5 L26.5 27 Q26 32 22 33.5 Z"/>
-    </g>
-  </g>
-</g>
-</svg>
-  </div></div>
 </div>
 
 <!-- Asistente -->
@@ -547,80 +426,6 @@ const CONFIG = {
 
   caja.addEventListener('mouseenter', () => { caja.classList.add('foco'); if (typeof cerrarCartel === 'function') cerrarCartel(); });
   caja.addEventListener('mouseleave', () => caja.classList.remove('foco'));
-
-  /* ---------- Papá Noel ---------- */
-  (() => {
-    const s = $('santa'); if (!s) return;
-    const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let actual = -1, pos = { x: 0, y: 0 }, ocupado = false;
-    const ents = () => [...caja.querySelectorAll('.entrada')];
-    const espera = ms => new Promise(r => setTimeout(r, ms));
-    // Los pies se apoyan en el borde superior de la entrada (coordenadas de página)
-    function borde(i) {
-      const r = ents()[i].getBoundingClientRect();
-      return { l: r.left + scrollX + 52, r: r.right + scrollX - 40, y: r.top + scrollY + 1 };
-    }
-    const puntoEn = (i, frac = .3 + Math.random() * .5) => { const b = borde(i); return { x: b.l + (b.r - b.l) * frac, y: b.y }; };
-    function colocar(p) {
-      pos = p;
-      s.style.transform = `translate(${p.x - s.offsetWidth / 2}px, ${p.y - s.offsetHeight}px)`;
-    }
-    const mira = x => s.classList.toggle('izq', x < pos.x);
-    function animar(dur, f) {
-      return new Promise(res => {
-        const t0 = performance.now();
-        (function paso(t) { const k = Math.min(1, (t - t0) / dur); f(k); k < 1 ? requestAnimationFrame(paso) : res(); })(t0);
-      });
-    }
-    const suave = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-
-    async function andar(x) {
-      if (Math.abs(x - pos.x) < 8) return;
-      mira(x); s.classList.add('anda');
-      const o = { ...pos }, dur = Math.abs(x - o.x) * 22;   // paso tranquilo
-      await animar(dur, k => colocar({ x: o.x + (x - o.x) * k, y: o.y }));
-      s.classList.remove('anda');
-    }
-    async function saltar(destino, dur = 820) {
-      mira(destino.x);
-      s.classList.add('agacha'); await espera(200); s.classList.remove('agacha');
-      s.classList.add('vuela');
-      const o = { ...pos }, alto = Math.min(o.y, destino.y) - 95;
-      await animar(dur, k => {
-        const e = suave(k);
-        colocar({ x: o.x + (destino.x - o.x) * e, y: o.y + (destino.y - o.y) * e - 4 * (Math.min(o.y, destino.y) - alto) * k * (1 - k) });
-      });
-      s.classList.remove('vuela'); s.classList.add('cae'); await espera(160); s.classList.remove('cae');
-    }
-    async function reir(ms = 1900) { s.classList.add('rie'); await espera(ms); s.classList.remove('rie'); }
-    async function saludar() { s.classList.add('saluda'); await espera(2900); s.classList.remove('saluda'); await espera(400); }
-    function otraVisible() {
-      const vis = ents().map((e, i) => ({ i, r: e.getBoundingClientRect() }))
-        .filter(o => o.i !== actual && o.r.top > 110 && o.r.top < innerHeight - 20).map(o => o.i);
-      return vis.length ? vis[Math.floor(Math.random() * vis.length)] : -1;
-    }
-    async function vida() {
-      actual = otraVisible(); if (actual < 0) actual = 0;
-      const meta = puntoEn(actual);
-      colocar({ x: meta.x, y: scrollY - 140 }); s.classList.add('visible', 'vuela');
-      await animar(900, k => colocar({ x: meta.x, y: scrollY - 140 + (meta.y - scrollY + 140) * (k * k) }));
-      s.classList.remove('vuela'); s.classList.add('cae'); await espera(180); s.classList.remove('cae');
-      await reir();
-      while (true) {
-        await espera(1800 + Math.random() * 2600);
-        if (ocupado) continue;
-        const r = Math.random();
-        if (r < .22) await reir();
-        else if (r < .44) await saludar();
-        else if (r < .7) { const b = borde(actual); await andar(b.l + (b.r - b.l) * Math.random()); }
-        else { const i = otraVisible(); if (i >= 0) { await saltar(puntoEn(i)); actual = i; } else await saludar(); }
-      }
-    }
-    s.addEventListener('click', async () => { if (ocupado) return; ocupado = true; await reir(1500); ocupado = false; });
-    addEventListener('resize', () => { if (actual >= 0) colocar(puntoEn(actual, .5)); });
-    if (reducido) { actual = 0; s.classList.add('visible'); setTimeout(() => colocar(puntoEn(0, .5)), 1600); }
-    else setTimeout(vida, 1900);
-  })();
 
   /* ---------- Asistente ---------- */
   let cerrarCartel = null;
