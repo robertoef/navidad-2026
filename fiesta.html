@@ -177,6 +177,9 @@ button{font:inherit;color:inherit}
 .peli-vacio{position:absolute;inset:10px;border:1px dashed rgba(243,239,233,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
 .peli-vacio em{font-family:'Cormorant Garamond',Georgia,serif;font-size:54px;font-weight:300;line-height:1;color:rgba(243,239,233,.85)}
 .peli-vacio span{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:rgba(243,239,233,.5)}
+.peli-tipo{position:absolute;inset:10px;border:1px solid rgba(243,239,233,.3);display:flex;flex-direction:column;justify-content:space-between;padding:16px 14px;background:radial-gradient(120% 80% at 50% 0%,rgba(155,28,37,.35),transparent 70%)}
+.peli-tipo em{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(24px,2.3vw,32px);line-height:1.05;color:#f3efe9}
+.pt-num,.pt-pie{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:rgba(243,239,233,.5)}
 .peli-nom{margin-top:14px;font-size:clamp(15px,1.4vw,18px);font-weight:300;line-height:1.25}
 .peli-nom.vacio{color:rgba(243,239,233,.5)}
 .peli-desc{margin-top:6px;font-size:12px;line-height:1.5;color:rgba(243,239,233,.7)}
@@ -297,12 +300,20 @@ const CONFIG = {
 
   // Cartelera (apartado "Elige tu peli"). Rellena cada película cuando esté confirmada.
   //   cartel: ruta a la imagen del cartel, en vertical (ej. "img/peli-1.jpg"); vacío = hueco "Próximamente"
-  //   edad: edad recomendada (ej. "TP", "+7")   duracion: en minutos (ej. 95)
+  //   edad: edad recomendada (ej. "TP", "+7")   duracion: minutos (ej. 95) o texto (ej. "≈ 150 min"); vacío = no se muestra
   cartelera: [
-    { titulo: "", descripcion: "", edad: "", duracion: "", cartel: "" },
-    { titulo: "", descripcion: "", edad: "", duracion: "", cartel: "" },
-    { titulo: "", descripcion: "", edad: "", duracion: "", cartel: "" },
-    { titulo: "", descripcion: "", edad: "", duracion: "", cartel: "" }
+    { titulo: "El gato con sombrero",
+      descripcion: "Dos hermanos que acaban de mudarse a una ciudad nueva reciben la visita de un gato parlanchín con sombrero de rayas que convierte un día aburrido en un caos lleno de diversión. Nueva versión animada del clásico del Dr. Seuss.",
+      edad: "+7", duracion: "", cartel: "img/peli-1.jpg" },
+    { titulo: "Hechizo: Bienvenidos a Hexe",
+      descripcion: "Billie, una chica de 16 años que se siente incomprendida, descubre que tiene poderes mágicos que su madre le ha ocultado desde niña. Juntas viajarán a Hexe, un reino de brujas y magos lleno de secretos familiares. De los creadores de Frozen y Zootrópolis.",
+      edad: "TP", duracion: "", cartel: "img/peli-2.jpg" },
+    { titulo: "Los Juegos del Hambre: Amanecer en la cosecha",
+      descripcion: "Precuela de la saga: en los 50.º Juegos del Hambre el Capitolio duplica el número de tributos. Un joven Haymitch, del Distrito 12, lucha por sobrevivir 24 años antes de la historia de Katniss.",
+      edad: "+12", duracion: "", cartel: "img/peli-3.jpg" },
+    { titulo: "Vengadores: Doomsday",
+      descripcion: "Los Vengadores y los Cuatro Fantásticos unen fuerzas contra el Doctor Doom, la mayor amenaza del multiverso, en la gran cita de Marvel que abre el camino a Secret Wars.",
+      edad: "+12", duracion: "", cartel: "img/peli-4.jpg" }
   ],
 
   asistente: {
@@ -366,8 +377,9 @@ const CONFIG = {
       <div class="pelis">${CONFIG.cartelera.map((f, n) => {
         const num = String(n + 1).padStart(2, '0');
         const cartel = f.cartel ? `<img src="${esc(f.cartel)}" alt="${esc(f.titulo)}" loading="lazy">`
+          : f.titulo ? `<div class="peli-tipo"><span class="pt-num">${num}</span><em>${esc(f.titulo)}</em><span class="pt-pie">Cartel próximamente</span></div>`
           : `<div class="peli-vacio"><em>${num}</em><span>Próximamente</span></div>`;
-        const datos = [f.edad ? `<span class="edad">${esc(f.edad)}</span>` : '', f.duracion ? `<span>${esc(f.duracion)} min</span>` : ''].join('');
+        const datos = [f.edad ? `<span class="edad">${esc(f.edad)}</span>` : '', f.duracion ? `<span>${esc(/^\d+$/.test(String(f.duracion).trim()) ? f.duracion + ' min' : f.duracion)}</span>` : ''].join('');
         return `<div class="peli"><div class="peli-cartel">${cartel}</div>
           <div class="peli-nom${f.titulo ? '' : ' vacio'}">${f.titulo ? esc(f.titulo) : 'Película por anunciar'}</div>
           ${f.descripcion ? `<div class="peli-desc">${esc(f.descripcion)}</div>` : ''}
