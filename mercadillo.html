@@ -50,6 +50,8 @@ button{font:inherit;color:inherit}
 .bola svg{display:block;width:100%;height:auto;overflow:visible}
 .bola:focus-visible{outline:1px solid var(--ink);outline-offset:6px}
 .asis-nombre{margin-top:8px;font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);animation:aparece .6s 1.2s both}
+/* al pasar el ratón la bola deja de balancearse, para que sea fácil de pulsar */
+.asis:hover,.asis:has(.bola:focus-visible){animation-play-state:paused}
 .asis.salta .bola svg{animation:salto .7s cubic-bezier(.3,1.6,.5,1)}
 .ojos{transition:transform .5s}
 .asis.mira .ojos{transform:translateY(2px)}
@@ -72,8 +74,11 @@ button{font:inherit;color:inherit}
 .c-pie{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;padding:12px 0 14px;border-top:1px solid var(--line);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
 .c-pie a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px}
 .c-puntos{display:flex;gap:5px}
-.c-puntos button{width:14px;height:9px;border:0;background:none;cursor:pointer;position:relative}
-.c-puntos button::after{content:"";position:absolute;left:0;right:0;top:4px;height:1px;background:var(--line)}
+.c-nav{display:flex;align-items:center;gap:4px}
+.c-flecha{background:none;border:0;cursor:pointer;font-size:18px;font-weight:300;line-height:1;padding:2px 6px;color:var(--soft)}
+.c-flecha:hover{color:var(--ink)}
+.c-puntos button{width:14px;height:20px;border:0;background:none;cursor:pointer;position:relative}
+.c-puntos button::after{content:"";position:absolute;left:0;right:0;top:9px;height:1px;background:var(--line)}
 .c-puntos button.on::after{background:var(--ink)}
 .c-prog{position:absolute;left:-1px;bottom:-1px;height:1px;background:var(--ink);width:0}
 
@@ -146,6 +151,36 @@ button{font:inherit;color:inherit}
 .visor-nota{font-size:10.5px;color:var(--soft);letter-spacing:.04em}
 body.bloq{overflow:hidden}
 
+/* ---------- Ficha del proyecto ---------- */
+.ficha{position:fixed;inset:0;z-index:50;overflow-y:auto;background:#fff;opacity:0;visibility:hidden;transition:opacity .45s,visibility .45s}
+.ficha.on{opacity:1;visibility:visible}
+.ficha-x{position:fixed;top:14px;right:18px;z-index:2;background:none;border:0;cursor:pointer;font-size:30px;font-weight:200;line-height:1;color:var(--ink);padding:6px 10px}
+.ficha-in{width:min(760px,100%);margin:0 auto;padding:clamp(56px,10vh,110px) 22px 64px}
+.ficha-in > *{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .8s cubic-bezier(.2,.7,.1,1)}
+.ficha.on .ficha-in > *{opacity:1;transform:none}
+.ficha.on .ficha-in > :nth-child(2){transition-delay:.08s}.ficha.on .ficha-in > :nth-child(3){transition-delay:.16s}
+.ficha.on .ficha-in > :nth-child(4){transition-delay:.24s}.ficha.on .ficha-in > :nth-child(n+5){transition-delay:.32s}
+.fi-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--soft)}
+.fi-tit{margin-top:18px;font-weight:200;font-size:clamp(40px,6.4vw,78px);line-height:1;letter-spacing:-.04em}
+.fi-tit em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:-.01em;color:var(--acento)}
+.fi-intro{margin-top:28px;font-size:clamp(16px,1.6vw,19px);line-height:1.6;font-weight:300;color:#2b2b2b}
+.fi-cifras{display:grid;grid-template-columns:repeat(3,1fr);margin-top:40px;border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.fi-cifra{padding:22px 0 20px}
+.fi-cifra + .fi-cifra{padding-left:22px;border-left:1px solid var(--line)}
+.fi-cifra b{display:block;font-weight:200;font-size:clamp(48px,7vw,84px);letter-spacing:-.05em;line-height:.9}
+.fi-cifra span{display:block;margin-top:10px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.fi-nec{margin-top:38px;font-size:15px;line-height:1.6}
+.fi-lista{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px;margin-top:14px}
+.fi-lista li{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.fi-lista li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--acento);transform:translateY(-1px)}
+.fi-dest{margin-top:40px;background:var(--ink);color:#f3efe9;padding:26px 28px;font-size:clamp(18px,2vw,24px);font-weight:300;line-height:1.35}
+.fi-cierre{margin-top:34px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(26px,3vw,36px);line-height:1.15;color:var(--acento)}
+.fi-pie{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;margin-top:40px;padding-top:18px;border-top:1px solid var(--line)}
+.fi-fuente{font-size:11px;color:var(--soft)}
+.fi-volver{background:none;border:1px solid var(--ink);cursor:pointer;font:inherit;font-size:10px;letter-spacing:.26em;text-transform:uppercase;padding:12px 20px;transition:background .3s,color .3s}
+.fi-volver:hover{background:var(--ink);color:#fff}
+@media (max-width:560px){.fi-cifras{grid-template-columns:1fr}.fi-cifra + .fi-cifra{padding-left:0;border-left:0;border-top:1px solid var(--line)}.fi-lista{grid-template-columns:1fr}}
+
 .pie{display:flex;justify-content:center;padding-bottom:12px}
 .pie a{font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
 .pie a:hover{color:var(--ink);border-color:var(--ink)}
@@ -161,6 +196,25 @@ body.bloq{overflow:hidden}
   .etiqueta{min-height:116px;margin:0 6%}
 }
 
+
+/* ===== Móvil: Noa discreto y más aire ===== */
+.bola{position:relative}
+.asis-badge{position:absolute;top:10px;right:-2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--acento);color:#fff;font:500 9.5px/17px 'Inter Tight',sans-serif;text-align:center;display:none;box-shadow:0 0 0 2px #fff}
+.asis.pendiente .asis-badge{display:block;animation:latido 1.8s ease-in-out infinite}
+@keyframes latido{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.cartel-fondo{position:fixed;inset:0;z-index:18;background:rgba(17,17,17,.28);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+@media (max-width:760px){
+  :root{--borde:22px;--hilo:3vh;--asis-x:12px}
+  .top{padding-right:58px}
+  .bola{width:44px}
+  .asis-nombre{display:none}
+  .asis{animation:none}   /* quieta en el móvil: más fácil de tocar */
+  .kicker{font-size:9.5px;letter-spacing:.24em;line-height:2}
+  .hero{padding:52px 0 52px}
+  body.noa-abierta .cartel-fondo{opacity:1;visibility:visible}
+  .cartel{left:0;right:0;bottom:0;width:auto;max-height:62vh;overflow:auto;border:0;border-top:1px solid var(--ink);padding:22px 22px 0;box-shadow:0 -20px 50px rgba(0,0,0,.18)}
+  .c-tit{font-size:24px}
+}
 </style>
 </head>
 <body>
@@ -189,10 +243,16 @@ body.bloq{overflow:hidden}
   <span class="visor-nota">Pulsa el cartel o el botón para abrir el formulario</span>
 </div>
 
+<div class="ficha" id="ficha" role="dialog" aria-modal="true" aria-label="El proyecto">
+  <button class="ficha-x" id="fichaX" aria-label="Cerrar">×</button>
+  <div class="ficha-in" id="fichaIn"></div>
+</div>
+
 <!-- Asistente -->
 <div class="asis" id="asis">
   <div class="hilo"></div>
   <button class="bola" id="bola" aria-label="Ver novedades">
+    <span class="asis-badge" id="asisBadge"></span>
     <svg viewBox="0 0 80 96" aria-hidden="true">
       <circle cx="40" cy="4.5" r="3.5" fill="none" stroke="#111" stroke-width="1.1"/>
       <rect x="32" y="8" width="16" height="9.5" rx="1.5" fill="#9b1c25" stroke="#111" stroke-width="1.1"/>
@@ -213,12 +273,13 @@ body.bloq{overflow:hidden}
   <span class="asis-nombre" id="asisNombre"></span>
 </div>
 
+<div class="cartel-fondo" id="cartelFondo"></div>
 <aside class="cartel" id="cartel" aria-live="polite">
   <span class="flecha"></span>
   <div class="c-cab"><span id="cEvento"></span><span class="c-nuevo" id="cNuevo"></span><button class="c-x" id="cX" aria-label="Cerrar">×</button></div>
   <p class="c-tit" id="cTit"></p>
   <p class="c-txt" id="cTxt"></p>
-  <div class="c-pie"><span id="cFecha"></span><div class="c-puntos" id="cPuntos"></div><span id="cLink"></span></div>
+  <div class="c-pie"><span id="cFecha"></span><div class="c-nav"><button class="c-flecha" id="cAnt" aria-label="Aviso anterior">‹</button><div class="c-puntos" id="cPuntos"></div><button class="c-flecha" id="cSig" aria-label="Aviso siguiente">›</button></div><span id="cLink"></span></div>
   <span class="c-prog" id="cProg"></span>
 </aside>
 
@@ -234,14 +295,37 @@ const CONFIG = {
   // Apartados (cada uno cuelga de una percha). enlace: vacío hasta que exista la página.
   // cartel: si lo tiene, al pulsar se abre el cartel a pantalla completa; pulsar el cartel abre "enlace".
   // id: permite enlazar directamente al cartel (ej. mercadillo.html#solidary-talent).
+  // ficha: "proyecto" → al pulsar se abre la ficha del proyecto solidario (ver "proyecto").
   apartados: [
     { nombre: "Hazte voluntario",       enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUMDVaOUY4VlVQRDRET0o4Njc0SUdURFlJQy4u" },
     { nombre: "Solidary Talent",        id: "solidary-talent", cartel: "img/solidary-talent.jpg", enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUQkZMWDVVM0FNTlk4SU80OTRZMk5VUjlaMC4u" },
     { nombre: "Percha Zero",            enlace: "" },
     { nombre: "Reservas Mercadillo",    enlace: "" },
     { nombre: "Lotes Zara Home",        enlace: "" },
-    { nombre: "Información importante", enlace: "" }
+    { nombre: "El Proyecto",            id: "el-proyecto", ficha: "proyecto" }
   ],
+
+  // Ficha "El Proyecto": a dónde va lo recaudado. *palabra* = cursiva en rojo.
+  proyecto: {
+    antetitulo: "El proyecto · Fundación CEDES",
+    titulo: "Que su casa siga siendo *su hogar.*",
+    intro: "En el barrio de San Gregorio, en Zaragoza, 36 personas con discapacidad intelectual y autismo viven en los Hogares CEDES: seis viviendas pensadas como una casa de verdad, no como una residencia. Allí comparten salón, cocina y día a día, acompañadas por un equipo de profesionales que las cuida.",
+    cifras: [
+      { n: "36", t: "personas viven aquí" },
+      { n: "6",  t: "hogares de convivencia" },
+      { n: "20", t: "años abriendo sus puertas" }
+    ],
+    necesidad: "Veinte años después, la casa necesita cuidados. Lo recaudado en el Mercadillo ayudará a renovarla:",
+    destino: [
+      "Baños adaptados y más seguros",
+      "Habitaciones y salones renovados",
+      "Accesos y jardín sin barreras",
+      "Una tablet para cada persona"
+    ],
+    destacado: "Este proyecto no cuenta con financiación pública. Cada aportación cuenta.",
+    cierre: "Lo que compres en el Mercadillo se convierte en autonomía, seguridad y hogar.",
+    fuente: "Proyecto «Hogares CEDES» · Fundación Carmen Fernández Céspedes (CEDES), Zaragoza"
+  },
 
   asistente: {
     nombre: "Noa",
@@ -259,7 +343,7 @@ const CONFIG = {
   avisos: [
     { fecha: "2026-10-21", evento: "Mercadillo Solidario", importante: true,
       titulo: "Del 10 al 18 de diciembre",
-      texto: "Aquí tienes todo: voluntariado, Solidary Talent, Percha Zero, reservas, lotes Zara Home e información importante.",
+      texto: "Aquí tienes todo: voluntariado, Solidary Talent, Percha Zero, reservas, lotes Zara Home y el proyecto al que ayudamos.",
       enlace: "" }
   ],
 
@@ -288,15 +372,16 @@ const CONFIG = {
   const PERCHA = '<svg class="percha" viewBox="0 0 120 64" aria-hidden="true"><path d="M53 11 C53 2 67 2 67 11 C67 16 60 17 60 23"/><path d="M60 23 L14 47 H106 Z"/><path d="M60 47 V64"/></svg>';
   const burra = $('burra');
   burra.innerHTML = CONFIG.apartados.map((a, n) => {
-    const tag = a.enlace || a.cartel ? 'a' : 'div';
-    const attrs = a.cartel ? ` href="#${esc(a.id || 'cartel-' + n)}" data-cartel="${n}"`
+    const tag = a.enlace || a.cartel || a.ficha ? 'a' : 'div';
+    const attrs = a.ficha ? ` href="#${esc(a.id || 'ficha-' + n)}" data-ficha="${n}"`
+      : a.cartel ? ` href="#${esc(a.id || 'cartel-' + n)}" data-cartel="${n}"`
       : a.enlace ? ` href="${esc(a.enlace)}"${/^https?:/.test(a.enlace) ? ' target="_blank" rel="noopener"' : ''}` : '';
-    return `<${tag} class="ropa${a.enlace || a.cartel ? '' : ' pronto'}"${attrs}>
+    return `<${tag} class="ropa${a.enlace || a.cartel || a.ficha ? '' : ' pronto'}"${attrs}>
       <div class="colgante" style="animation-delay:${1 + n * .12}s">${PERCHA}
         <div class="etiqueta">
           <span class="et-num">${String(n + 1).padStart(2, '0')}</span>
           <span class="et-nom">${esc(a.nombre)}</span>
-          <span class="et-ir">${a.enlace || a.cartel ? '→' : 'Próximamente'}</span>
+          <span class="et-ir">${a.enlace || a.cartel || a.ficha ? '→' : 'Próximamente'}</span>
         </div>
       </div></${tag}>`;
   }).join('');
@@ -326,6 +411,37 @@ const CONFIG = {
   $('visorX').onclick = cerrarVisor;
   visor.addEventListener('click', e => { if (e.target === visor) cerrarVisor(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && visor.classList.contains('on')) cerrarVisor(); });
+  /* ---------- Ficha del proyecto ---------- */
+  const ficha = $('ficha'), P = CONFIG.proyecto;
+  const enfasis = s => esc(s).replace(/\*(.+?)\*/g, '<em>$1</em>');
+  $('fichaIn').innerHTML = `
+    <p class="fi-kicker">${esc(P.antetitulo)}</p>
+    <h2 class="fi-tit">${enfasis(P.titulo)}</h2>
+    <p class="fi-intro">${esc(P.intro)}</p>
+    <div class="fi-cifras">${P.cifras.map(c => `<div class="fi-cifra"><b>${esc(c.n)}</b><span>${esc(c.t)}</span></div>`).join('')}</div>
+    <p class="fi-nec">${esc(P.necesidad)}</p>
+    <ul class="fi-lista">${P.destino.map(d => `<li>${esc(d)}</li>`).join('')}</ul>
+    <p class="fi-dest">${esc(P.destacado)}</p>
+    <p class="fi-cierre">${esc(P.cierre)}</p>
+    <div class="fi-pie"><span class="fi-fuente">${esc(P.fuente)}</span><button class="fi-volver" id="fichaVolver">Volver al Mercadillo</button></div>`;
+  function abrirFicha() {
+    ficha.scrollTop = 0; ficha.classList.add('on'); document.body.classList.add('bloq');
+    if (typeof cerrarCartel === 'function') cerrarCartel();
+    $('fichaX').focus();
+  }
+  function cerrarFicha() {
+    ficha.classList.remove('on'); document.body.classList.remove('bloq');
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  }
+  burra.addEventListener('click', e => {
+    const r = e.target.closest('[data-ficha]'); if (!r) return;
+    e.preventDefault(); history.replaceState(null, '', r.getAttribute('href')); abrirFicha();
+  });
+  $('fichaX').onclick = cerrarFicha;
+  $('fichaVolver').onclick = cerrarFicha;
+  addEventListener('keydown', e => { if (e.key === 'Escape' && ficha.classList.contains('on')) cerrarFicha(); });
+  if (CONFIG.apartados.some(a => a.ficha && a.id && '#' + a.id === location.hash)) setTimeout(abrirFicha, 400);
+
   // Enlace directo: mercadillo.html#solidary-talent abre el cartel al entrar
   const directo = CONFIG.apartados.findIndex(a => a.cartel && a.id && '#' + a.id === location.hash);
   if (directo >= 0) setTimeout(() => abrirCartel(directo), 400);
@@ -338,7 +454,8 @@ const CONFIG = {
     $('asisNombre').textContent = A.nombre;
     const avisos = [...CONFIG.avisos].sort((x, y) => y.fecha.localeCompare(x.fecha));
     const lista = (A.saludo ? [{ saludo: true, evento: A.nombre, titulo: A.saludo.titulo, texto: A.saludo.texto }] : []).concat(avisos);
-    let i = 0, mostrados = 0, timer = null, pausa = false, abierto = false;
+    // manual: el usuario lo ha abierto o tocado → solo se cierra con la × (o Esc) y no avanza solo
+    let i = 0, mostrados = 0, timer = null, pausa = false, abierto = false, manual = false;
 
     const relativo = f => {
       const dias = Math.round((hoy - parse(f)) / 864e5);
@@ -357,15 +474,15 @@ const CONFIG = {
       $('cLink').innerHTML = a.enlace ? `<a href="${esc(a.enlace)}">Ver más</a>` : '';
       $('cPuntos').innerHTML = lista.length > 1 ? lista.map((_, n) => `<button class="${n === i ? 'on' : ''}" data-n="${n}" aria-label="Aviso ${n + 1}"></button>`).join('') : '';
       const p = $('cProg'); p.style.transition = 'none'; p.style.width = '0';
-      if (!pausa && !reduce) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.transition = `width ${A.segundos}s linear`; p.style.width = 'calc(100% + 2px)'; }));
+      if (!pausa && !manual && !reduce) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.transition = `width ${A.segundos}s linear`; p.style.width = 'calc(100% + 2px)'; }));
       asis.classList.remove('salta'); void asis.offsetWidth; asis.classList.add('salta');
     }
-    function abrir(n = 0) { i = n; abierto = true; cartel.classList.add('on'); asis.classList.add('mira'); pinta(); programar(); }
-    function cerrar() { abierto = false; cartel.classList.remove('on'); asis.classList.remove('mira'); clearTimeout(timer); }
-    cerrarCartel = () => { if (abierto) cerrar(); };
+    function abrir(n = 0) { i = n; abierto = true; cartel.classList.add('on'); asis.classList.add('mira'); asis.classList.remove('pendiente'); document.body.classList.add('noa-abierta'); pinta(); programar(); }
+    function cerrar() { abierto = false; cartel.classList.remove('on'); asis.classList.remove('mira'); document.body.classList.remove('noa-abierta'); clearTimeout(timer); }
+    cerrarCartel = () => { if (abierto && !manual) cerrar(); };
     function programar() {
       clearTimeout(timer);
-      if (pausa) return;
+      if (pausa || manual) return;
       timer = setTimeout(() => {
         mostrados++;
         if (A.vueltas && mostrados >= lista.length * A.vueltas) return cerrar();
@@ -373,12 +490,21 @@ const CONFIG = {
       }, A.segundos * 1000);
     }
 
-    $('bola').onclick = () => abierto ? cerrar() : (mostrados = 0, abrir(A.saludo && avisos.length ? 1 : 0));
-    $('cX').onclick = cerrar;
-    $('cPuntos').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { i = +b.dataset.n; pinta(); programar(); } });
+    const ir = n => { manual = true; i = (n + lista.length) % lista.length; pinta(); clearTimeout(timer); const p = $('cProg'); p.style.transition = 'none'; p.style.width = '0'; };
+    // Pulsar a Noa: si está cerrado lo abre; si está abierto pasa al siguiente aviso
+    $('bola').onclick = () => { if (!abierto) { manual = true; mostrados = 0; abrir(A.saludo && avisos.length ? 1 : 0); ir(i); } else ir(i + 1); };
+    $('cX').onclick = () => { manual = false; cerrar(); };
+    $('cAnt').onclick = () => ir(i - 1);
+    $('cSig').onclick = () => ir(i + 1);
+    $('cPuntos').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ir(+b.dataset.n); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && abierto) { manual = false; cerrar(); } });
     cartel.addEventListener('mouseenter', () => { pausa = true; clearTimeout(timer); const p = $('cProg'); p.style.transition = 'none'; });
-    cartel.addEventListener('mouseleave', () => { pausa = false; pinta(); programar(); });
-    setTimeout(() => abrir(0), 1900);
+    cartel.addEventListener('mouseleave', () => { pausa = false; if (!manual) { pinta(); programar(); } });
+    $('cartelFondo').onclick = () => { manual = false; cerrar(); };
+    // En ordenador saluda solo; en móvil no tapa nada: muestra un aviso con el número de novedades
+    $('asisBadge').textContent = avisos.length || '';
+    if (matchMedia('(max-width: 760px)').matches) { if (avisos.length) asis.classList.add('pendiente'); }
+    else setTimeout(() => abrir(0), 1900);
   }
 
   /* ---------- Nieve ---------- */

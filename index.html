@@ -134,6 +134,8 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .bola svg{display:block;width:100%;height:auto;overflow:visible}
 .bola:focus-visible{outline:1px solid var(--ink);outline-offset:6px}
 .asis-nombre{margin-top:8px;font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);animation:aparece .6s 1.2s both}
+/* al pasar el ratón la bola deja de balancearse, para que sea fácil de pulsar */
+.asis:hover,.asis:has(.bola:focus-visible){animation-play-state:paused}
 .asis.salta .bola svg{animation:salto .7s cubic-bezier(.3,1.6,.5,1)}
 .ojos{transition:transform .5s}
 .asis.mira .ojos{transform:translateY(2px)}
@@ -156,15 +158,35 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .c-pie{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;padding:12px 0 14px;border-top:1px solid var(--line);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
 .c-pie a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px}
 .c-puntos{display:flex;gap:5px}
-.c-puntos button{width:14px;height:9px;border:0;background:none;cursor:pointer;position:relative}
-.c-puntos button::after{content:"";position:absolute;left:0;right:0;top:4px;height:1px;background:var(--line)}
+.c-nav{display:flex;align-items:center;gap:4px}
+.c-flecha{background:none;border:0;cursor:pointer;font-size:18px;font-weight:300;line-height:1;padding:2px 6px;color:var(--soft)}
+.c-flecha:hover{color:var(--ink)}
+.c-puntos button{width:14px;height:20px;border:0;background:none;cursor:pointer;position:relative}
+.c-puntos button::after{content:"";position:absolute;left:0;right:0;top:9px;height:1px;background:var(--line)}
 .c-puntos button.on::after{background:var(--ink)}
 .c-prog{position:absolute;left:-1px;bottom:-1px;height:1px;background:var(--ink);width:0}
 
 /* ---------- Responsive ---------- */
 @media (max-width:760px){
   .indice{grid-template-columns:repeat(2,1fr)}
-  .vit{flex-basis:76vw}
+  .escaparate{margin:0 0 72px}
+  .esc-cab{padding:0;justify-content:space-between}
+  .esc-nav,.esc-barra{display:none}
+  .esc-pista{display:grid;grid-template-columns:1fr 1fr;gap:14px;overflow:visible;padding:0}
+  .esc-pista::after{display:none}
+  .vit{flex:none;width:auto;margin:0 !important}
+  .vit-card{padding:12px 12px 13px}
+  .vit-top{min-height:26px}
+  .vit-num,.vit-nuevo{font-size:7.5px}
+  .vit-nuevo{padding:4px 6px 3px}
+  .vit-gl{width:26px;height:26px}
+  .vit-dia{font-size:40px}
+  .vit-dia.pronto{font-size:34px}
+  .vit-mes{font-size:8px;letter-spacing:.24em;margin-top:6px}
+  .vit-base{padding-top:9px}
+  .vit-nom{font-size:13px}
+  .vit-est{font-size:7.5px;letter-spacing:.16em;margin-top:5px}
+  .cal{margin-top:8px}
   :root{--hilo:7vh;--asis-x:18px}
   .top{justify-content:flex-start;padding-right:80px}
   .logo{width:min(300px,62vw)}
@@ -182,6 +204,25 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .frase .l > span{transform:none}
   .base{opacity:1}
+}
+
+/* ===== Móvil: Noa discreto y más aire ===== */
+.bola{position:relative}
+.asis-badge{position:absolute;top:10px;right:-2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--acento);color:#fff;font:500 9.5px/17px 'Inter Tight',sans-serif;text-align:center;display:none;box-shadow:0 0 0 2px #fff}
+.asis.pendiente .asis-badge{display:block;animation:latido 1.8s ease-in-out infinite}
+@keyframes latido{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.cartel-fondo{position:fixed;inset:0;z-index:18;background:rgba(17,17,17,.28);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+@media (max-width:760px){
+  :root{--borde:22px;--hilo:3vh;--asis-x:12px}
+  .top{padding-right:58px}
+  .bola{width:44px}
+  .asis-nombre{display:none}
+  .asis{animation:none}   /* quieta en el móvil: más fácil de tocar */
+  .kicker{font-size:9.5px;letter-spacing:.24em;line-height:2}
+  .hero{padding:52px 0 52px}
+  body.noa-abierta .cartel-fondo{opacity:1;visibility:visible}
+  .cartel{left:0;right:0;bottom:0;width:auto;max-height:62vh;overflow:auto;border:0;border-top:1px solid var(--ink);padding:22px 22px 0;box-shadow:0 -20px 50px rgba(0,0,0,.18)}
+  .c-tit{font-size:24px}
 }
 </style>
 </head>
@@ -229,6 +270,7 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 <div class="asis" id="asis">
   <div class="hilo"></div>
   <button class="bola" id="bola" aria-label="Ver novedades">
+    <span class="asis-badge" id="asisBadge"></span>
     <svg viewBox="0 0 80 96" aria-hidden="true">
       <circle cx="40" cy="4.5" r="3.5" fill="none" stroke="#111" stroke-width="1.1"/>
       <rect x="32" y="8" width="16" height="9.5" rx="1.5" fill="#9b1c25" stroke="#111" stroke-width="1.1"/>
@@ -249,12 +291,13 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
   <span class="asis-nombre" id="asisNombre"></span>
 </div>
 
+<div class="cartel-fondo" id="cartelFondo"></div>
 <aside class="cartel" id="cartel" aria-live="polite">
   <span class="flecha"></span>
   <div class="c-cab"><span id="cEvento"></span><span class="c-nuevo" id="cNuevo"></span><button class="c-x" id="cX" aria-label="Cerrar">×</button></div>
   <p class="c-tit" id="cTit"></p>
   <p class="c-txt" id="cTxt"></p>
-  <div class="c-pie"><span id="cFecha"></span><div class="c-puntos" id="cPuntos"></div><span id="cLink"></span></div>
+  <div class="c-pie"><span id="cFecha"></span><div class="c-nav"><button class="c-flecha" id="cAnt" aria-label="Aviso anterior">‹</button><div class="c-puntos" id="cPuntos"></div><button class="c-flecha" id="cSig" aria-label="Aviso siguiente">›</button></div><span id="cLink"></span></div>
   <span class="c-prog" id="cProg"></span>
 </aside>
 
@@ -285,7 +328,7 @@ const CONFIG = {
   avisos: [
     { fecha: "2026-10-21", evento: "Mercadillo Solidario",
       titulo: "Del 10 al 18 de diciembre",
-      texto: "Reserva estos días. Muy pronto, toda la información sobre voluntariado, Fila Cero y el proyecto solidario.",
+      texto: "Reserva estos días. Ya puedes apuntarte como voluntario y conocer Solidary Talent, Percha Zero y el proyecto al que ayudamos.",
       enlace: "mercadillo.html" },
     { fecha: "2026-10-20", evento: "Fiesta infantil",
       titulo: "Guarda la fecha: 20 de diciembre",
@@ -503,7 +546,8 @@ const CONFIG = {
     $('asisNombre').textContent = A.nombre;
     const avisos = [...CONFIG.avisos].sort((x, y) => y.fecha.localeCompare(x.fecha));
     const lista = (A.saludo ? [{ saludo: true, evento: A.nombre, titulo: A.saludo.titulo, texto: A.saludo.texto }] : []).concat(avisos);
-    let i = 0, mostrados = 0, timer = null, pausa = false, abierto = false;
+    // manual: el usuario lo ha abierto o tocado → solo se cierra con la × (o Esc) y no avanza solo
+    let i = 0, mostrados = 0, timer = null, pausa = false, abierto = false, manual = false;
 
     const relativo = f => {
       const dias = Math.round((hoy - parse(f)) / 864e5);
@@ -522,15 +566,15 @@ const CONFIG = {
       $('cLink').innerHTML = a.enlace ? `<a href="${esc(a.enlace)}">Ver más</a>` : '';
       $('cPuntos').innerHTML = lista.length > 1 ? lista.map((_, n) => `<button class="${n === i ? 'on' : ''}" data-n="${n}" aria-label="Aviso ${n + 1}"></button>`).join('') : '';
       const p = $('cProg'); p.style.transition = 'none'; p.style.width = '0';
-      if (!pausa && !reduce) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.transition = `width ${A.segundos}s linear`; p.style.width = 'calc(100% + 2px)'; }));
+      if (!pausa && !manual && !reduce) requestAnimationFrame(() => requestAnimationFrame(() => { p.style.transition = `width ${A.segundos}s linear`; p.style.width = 'calc(100% + 2px)'; }));
       asis.classList.remove('salta'); void asis.offsetWidth; asis.classList.add('salta');
     }
-    function abrir(n = 0) { i = n; abierto = true; cartel.classList.add('on'); asis.classList.add('mira'); pinta(); programar(); }
-    function cerrar() { abierto = false; cartel.classList.remove('on'); asis.classList.remove('mira'); clearTimeout(timer); }
-    cerrarCartel = () => { if (abierto) cerrar(); };
+    function abrir(n = 0) { i = n; abierto = true; cartel.classList.add('on'); asis.classList.add('mira'); asis.classList.remove('pendiente'); document.body.classList.add('noa-abierta'); pinta(); programar(); }
+    function cerrar() { abierto = false; cartel.classList.remove('on'); asis.classList.remove('mira'); document.body.classList.remove('noa-abierta'); clearTimeout(timer); }
+    cerrarCartel = () => { if (abierto && !manual) cerrar(); };
     function programar() {
       clearTimeout(timer);
-      if (pausa) return;
+      if (pausa || manual) return;
       timer = setTimeout(() => {
         mostrados++;
         if (A.vueltas && mostrados >= lista.length * A.vueltas) return cerrar();
@@ -538,12 +582,21 @@ const CONFIG = {
       }, A.segundos * 1000);
     }
 
-    $('bola').onclick = () => abierto ? cerrar() : (mostrados = 0, abrir(A.saludo && avisos.length ? 1 : 0));
-    $('cX').onclick = cerrar;
-    $('cPuntos').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { i = +b.dataset.n; pinta(); programar(); } });
+    const ir = n => { manual = true; i = (n + lista.length) % lista.length; pinta(); clearTimeout(timer); const p = $('cProg'); p.style.transition = 'none'; p.style.width = '0'; };
+    // Pulsar a Noa: si está cerrado lo abre; si está abierto pasa al siguiente aviso
+    $('bola').onclick = () => { if (!abierto) { manual = true; mostrados = 0; abrir(A.saludo && avisos.length ? 1 : 0); ir(i); } else ir(i + 1); };
+    $('cX').onclick = () => { manual = false; cerrar(); };
+    $('cAnt').onclick = () => ir(i - 1);
+    $('cSig').onclick = () => ir(i + 1);
+    $('cPuntos').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ir(+b.dataset.n); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && abierto) { manual = false; cerrar(); } });
     cartel.addEventListener('mouseenter', () => { pausa = true; clearTimeout(timer); const p = $('cProg'); p.style.transition = 'none'; });
-    cartel.addEventListener('mouseleave', () => { pausa = false; pinta(); programar(); });
-    setTimeout(() => abrir(0), 1900);
+    cartel.addEventListener('mouseleave', () => { pausa = false; if (!manual) { pinta(); programar(); } });
+    $('cartelFondo').onclick = () => { manual = false; cerrar(); };
+    // En ordenador saluda solo; en móvil no tapa nada: muestra un aviso con el número de novedades
+    $('asisBadge').textContent = avisos.length || '';
+    if (matchMedia('(max-width: 760px)').matches) { if (avisos.length) asis.classList.add('pendiente'); }
+    else setTimeout(() => abrir(0), 1900);
   }
 
   /* ---------- Nieve ---------- */
