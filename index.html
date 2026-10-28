@@ -102,28 +102,24 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .vit:last-child{margin-right:auto}
 .escaparate.cabe .esc-cab{justify-content:center}
 .escaparate.cabe .esc-nav,.escaparate.cabe .esc-barra{visibility:hidden}
-.vit{flex:0 0 clamp(220px,calc((100vw - 2 * var(--borde) - 84px) / 4),300px);scroll-snap-align:start;text-decoration:none;color:inherit;cursor:pointer}
-.vit-card{position:relative;aspect-ratio:4/5;background:var(--warm);padding:18px 20px 20px;display:flex;flex-direction:column;overflow:hidden;transition:background .5s,color .5s}
+.vit{flex:0 0 clamp(200px,calc((100vw - 2 * var(--borde) - (var(--n,4) - 1) * 20px - 26px) / var(--n,4)),300px);scroll-snap-align:start;text-decoration:none;color:inherit;cursor:pointer}
+.vit-card{position:relative;aspect-ratio:4 / 5;background:#f4f0ea;padding:20px 22px 22px;display:flex;flex-direction:column;overflow:hidden;transition:background .5s,transform .6s cubic-bezier(.2,.7,.1,1)}
 .vit-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.vit-top{display:flex;justify-content:space-between;align-items:flex-start;min-height:40px}
-.vit-num{font-size:9px;letter-spacing:.26em;color:var(--soft);padding-top:4px;transition:color .5s}
+.vt-top{display:flex;justify-content:space-between;align-items:flex-start}
+.vt-num{font-size:9.5px;letter-spacing:.3em;color:var(--soft);padding-top:6px}
 .vit-nuevo{background:var(--acento);color:#fff;font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;padding:5px 9px 4px}
-.vit-gl{width:40px;height:40px;overflow:visible}
-.vit-gl *{fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-.vit-fecha{margin-top:auto;margin-bottom:auto;padding-top:8px}
-.vit-dia{display:block;font-weight:200;font-size:clamp(58px,5.4vw,84px);letter-spacing:-.05em;line-height:.9;white-space:nowrap}
-.vit-dia.pronto{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:-.02em;font-size:clamp(50px,4.6vw,72px)}
-.vit-mes{display:block;margin-top:10px;font-size:9.5px;letter-spacing:.32em;text-transform:uppercase}
-.vit-base{border-top:1px solid currentColor;padding-top:12px}
-.vit-nom{display:block;font-size:16px;font-weight:300;line-height:1.25}
-.vit-est{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft);transition:color .5s}
-.vit-est i{width:5px;height:5px;border-radius:50%;background:currentColor}
-.vit-est.vivo{color:var(--acento)}
-.vit-nov{display:block;padding:10px 2px 0;font-size:12px;color:var(--acento);line-height:1.4}
-.vit-nov::before{content:"— "}
-.vit:hover .vit-card{background:var(--ink);color:#fff}
-.vit:hover .vit-num,.vit:hover .vit-est{color:rgba(255,255,255,.65)}
-.vit:hover .vit-est.vivo{color:#e8a0a5}
+.vt-ico{width:54px;height:54px;border-radius:50%;border:1px solid rgba(17,17,17,.18);display:grid;place-items:center;background:#fff;transition:transform .8s cubic-bezier(.2,.7,.1,1),border-color .4s}
+.vt-ico svg{width:34px;height:34px;overflow:visible}
+.vt-ico svg *{fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.vt-nom{margin-top:auto;font-weight:300;font-size:clamp(26px,2.3vw,34px);line-height:1.04;letter-spacing:-.025em;color:var(--ink)}
+.vt-nom em{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:400;font-size:1.12em;letter-spacing:-.01em;color:var(--acento)}
+.vt-pie{margin-top:18px;padding-top:12px;border-top:1px solid rgba(17,17,17,.75);display:flex;flex-direction:column;gap:6px}
+.vt-fecha{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.vt-est{display:inline-flex;align-items:center;gap:7px;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.vt-est::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+.vt-est.vivo{color:var(--acento)}
+.vit:hover .vit-card{background:#ece5da;transform:translateY(-4px)}
+.vit:hover .vt-ico{transform:rotate(-10deg) scale(1.06);border-color:var(--ink)}
 .esc-barra{margin:22px var(--borde) 0;height:1px;background:var(--line);position:relative}
 .esc-barra i{position:absolute;left:0;top:0;height:1px;background:var(--ink);transition:left .3s,width .3s}
 
@@ -166,6 +162,23 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .c-puntos button.on::after{background:var(--ink)}
 .c-prog{position:absolute;left:-1px;bottom:-1px;height:1px;background:var(--ink);width:0}
 
+/* ---------- Panel Cesta de Navidad ---------- */
+.ces{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px 16px;background:rgba(17,17,17,.42);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.ces.on{opacity:1;visibility:visible}
+.ces-in{position:relative;width:min(620px,100%);max-height:calc(100svh - 48px);overflow:auto;background:#fff;padding:clamp(28px,5vw,48px);transform:translateY(18px) scale(.98);transition:transform .55s cubic-bezier(.2,.7,.1,1)}
+.ces.on .ces-in{transform:none}
+.ces-x{position:absolute;top:10px;right:12px;background:none;border:0;cursor:pointer;font-size:28px;font-weight:200;line-height:1;padding:6px 10px;color:var(--ink)}
+.ces-k{padding-right:34px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--soft)}
+.ces-t{margin-top:12px;font-weight:200;font-size:clamp(34px,5vw,52px);line-height:1;letter-spacing:-.035em}
+.ces-t em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;letter-spacing:-.01em;color:var(--acento)}
+.ces-pasos{list-style:none;margin-top:30px;border-top:1px solid var(--ink)}
+.ces-pasos li{display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.ces-n{font-weight:200;font-size:40px;letter-spacing:-.04em;line-height:.9;color:var(--acento)}
+.ces-pt{font-size:17px;font-weight:400;line-height:1.25}
+.ces-pd{margin-top:6px;font-size:14px;line-height:1.55;color:#3a3a3a}
+.ces-ok{margin-top:26px;background:var(--ink);color:#fff;border:0;cursor:pointer;font:inherit;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:14px 26px}
+.ces-ok:hover{background:var(--acento)}
+
 /* ---------- Responsive ---------- */
 @media (max-width:760px){
   .indice{grid-template-columns:repeat(2,1fr)}
@@ -175,17 +188,17 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
   .esc-pista{display:grid;grid-template-columns:1fr 1fr;gap:14px;overflow:visible;padding:0}
   .esc-pista::after{display:none}
   .vit{flex:none;width:auto;margin:0 !important}
-  .vit-card{padding:12px 12px 13px}
-  .vit-top{min-height:26px}
-  .vit-num,.vit-nuevo{font-size:7.5px}
+  .vit:last-child:nth-child(odd){grid-column:1 / -1}
+  .vit:last-child:nth-child(odd) .vit-card{aspect-ratio:auto;min-height:190px}
+  .vit-card{padding:13px 13px 14px}
+  .vt-num,.vit-nuevo{font-size:7.5px}
   .vit-nuevo{padding:4px 6px 3px}
-  .vit-gl{width:26px;height:26px}
-  .vit-dia{font-size:40px}
-  .vit-dia.pronto{font-size:34px}
-  .vit-mes{font-size:8px;letter-spacing:.24em;margin-top:6px}
-  .vit-base{padding-top:9px}
-  .vit-nom{font-size:13px}
-  .vit-est{font-size:7.5px;letter-spacing:.16em;margin-top:5px}
+  .vt-ico{width:38px;height:38px}
+  .vt-ico svg{width:24px;height:24px}
+  .vt-nom{font-size:19px}
+  .vt-pie{margin-top:12px;padding-top:9px;gap:4px}
+  .vt-fecha{font-size:8.5px;letter-spacing:.16em}
+  .vt-est{font-size:7px;letter-spacing:.14em}
   .cal{margin-top:8px}
   :root{--hilo:7vh;--asis-x:18px}
   .top{justify-content:flex-start;padding-right:80px}
@@ -266,6 +279,16 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
   </footer>
 </div>
 
+<div class="ces" id="ces" role="dialog" aria-modal="true" aria-labelledby="cesT">
+  <div class="ces-in">
+    <button class="ces-x" id="cesX" aria-label="Cerrar">×</button>
+    <p class="ces-k">Navidad 2026 · Plataforma Europa</p>
+    <h2 class="ces-t" id="cesT"></h2>
+    <ol class="ces-pasos" id="cesPasos"></ol>
+    <button class="ces-ok" id="cesOk">Entendido</button>
+  </div>
+</div>
+
 <!-- Asistente -->
 <div class="asis" id="asis">
   <div class="hilo"></div>
@@ -344,7 +367,8 @@ const CONFIG = {
   // Eventos de varios días: inicio + fin. Inscripción: el círculo se marca en la fecha de fin.
   calendario: [
     { tipo: "evento", titulo: "Mercadillo Solidario", inicio: "2026-12-10", fin: "2026-12-18", enlace: "mercadillo.html" },
-    { tipo: "evento", titulo: "Fiesta infantil de Navidad", inicio: "2026-12-20", enlace: "fiesta.html" },
+    { tipo: "evento", titulo: "Entrega de la Cesta de Navidad", inicio: "2026-12-15", enlace: "#cesta-navidad" },
+    { tipo: "evento", titulo: "Fiesta infantil", inicio: "2026-12-20", enlace: "fiesta.html" },
     { tipo: "evento", titulo: "Jornadas de puertas abiertas", inicio: "2026-12-21", fin: "2026-12-22", enlace: "puertas-abiertas.html" },
     // EJEMPLO — sustituir por el plazo real o borrar esta línea:
     { tipo: "inscripcion", titulo: "Inscripción fiesta infantil · ejemplo", inicio: "2026-11-16", fin: "2026-11-30", enlace: "" }
@@ -355,12 +379,23 @@ const CONFIG = {
 
   // Eventos de la home. inicio/fin: "AAAA-MM-DD" (vacío = por anunciar).
   // estado: texto opcional (ej. "Inscripciones abiertas"); si está vacío se calcula con la fecha.
-  // imagen: opcional; si se pone, sustituye a la tarjeta tipográfica.
+  // nombre: *palabra* = cursiva. imagen: opcional; si se pone, sustituye a la tarjeta tipográfica.
+  // Instrucciones de la Cesta de Navidad (se abren al pulsar su tarjeta)
+  cesta: {
+    titulo: "Tu *Cesta de Navidad*",
+    pasos: [
+      { t: "Desde el 15 de diciembre", d: "Las cestas se entregarán a partir del 15 de diciembre." },
+      { t: "Escanea tu QR de Inet", d: "Para recogerla, escanea tu código QR de Inet en las PDA que habrá ubicadas en cada sección." },
+      { t: "¿La recoge otra persona?", d: "Si tu cesta va a recogerla un compañero o compañera de trabajo, pásale un pantallazo de tu QR para que pueda recogerla." }
+    ]
+  },
+
   eventos: [
-    { nombre: "Mercadillo Solidario", inicio: "2026-12-10", fin: "2026-12-18", estado: "Voluntariado abierto", imagen: "", ilustracion: "percha", enlace: "mercadillo.html" },
-    { nombre: "Fiesta infantil de Navidad", inicio: "2026-12-20", fin: "", estado: "", imagen: "", ilustracion: "corona", enlace: "fiesta.html" },
-    { nombre: "Puertas Abiertas", inicio: "2026-12-21", fin: "2026-12-22", estado: "", imagen: "", ilustracion: "almacen", enlace: "puertas-abiertas.html" },
-    { nombre: "El Mercado km 0", inicio: "", fin: "", estado: "", imagen: "", ilustracion: "dulce", enlace: "mercado-km0.html" }
+    { nombre: "Mercadillo *Solidario*", inicio: "2026-12-10", fin: "2026-12-18", estado: "Voluntariado abierto", imagen: "", ilustracion: "percha", enlace: "mercadillo.html" },
+    { nombre: "Cesta de *Navidad*", inicio: "2026-12-15", fin: "", desde: true, estado: "Cómo recogerla", imagen: "", ilustracion: "cesta", ficha: "cesta" },
+    { nombre: "Fiesta *infantil*", inicio: "2026-12-20", fin: "", estado: "", imagen: "", ilustracion: "corona", enlace: "fiesta.html" },
+    { nombre: "Puertas *Abiertas*", inicio: "2026-12-21", fin: "2026-12-22", estado: "", imagen: "", ilustracion: "almacen", enlace: "puertas-abiertas.html" },
+    { nombre: "Mercado *km 0*", inicio: "", fin: "", estado: "", imagen: "", ilustracion: "dulce", enlace: "mercado-km0.html" }
   ],
 
   nieve: true
@@ -470,6 +505,7 @@ const CONFIG = {
     // Nave central con un silo bajo a cada lado; todos con tejado plano
     almacen: '<path d="M8 70 H92"/><path d="M31 70 V42 H69 V70"/><path d="M44 70 V58 H56 V70"/><path d="M15 70 V53 H27 V70"/><path d="M15 61.5 H27"/><path d="M73 70 V53 H85 V70"/><path d="M73 61.5 H85"/>',
     // Croissant: media luna con gajos y puntas hacia abajo
+    cesta:   '<path d="M18 48 H82 L74 80 H26 Z"/><path d="M30 48 Q50 14 70 48"/><path d="M22 60 H78 M24 70 H76 M40 48 L42 80 M60 48 L58 80"/>',
     dulce:   '<path d="M14 66 Q14.5 54.6 26 48 Q29.4 36 40 36 Q50 28 60 36 Q70.6 36 74 48 Q85.5 54.6 86 66 Q50 50 14 66 Z"/><path d="M26 48 Q31 54 32 60 M40 36 Q43 47 43 58.4 M60 36 Q57 47 57 58.4 M74 48 Q69 54 68 60"/>'
   };
 
@@ -484,10 +520,12 @@ const CONFIG = {
   const lista = CONFIG.eventos.map((e, n) => ({ e, n, nov: novedad(e) }))
     .sort((a, b) => (b.nov ? 1 : 0) - (a.nov ? 1 : 0) || a.n - b.n);
   const pista = $('escPista');
+  const MES3 = d => new Intl.DateTimeFormat('es-ES', { month:'short' }).format(d).replace('.', '');
   const MESL = d => new Intl.DateTimeFormat('es-ES', { month:'long' }).format(d);
   function fechaGrande(e) {
     if (!e.inicio) return { dia: 'Pronto', mes: 'Fecha por anunciar', pronto: true };
     const a = parse(e.inicio), b = e.fin ? parse(e.fin) : a;
+    if (e.desde) return { dia: String(a.getDate()), mes: 'Desde el ' + a.getDate() + ' de ' + MESL(a) };
     if (+a === +b) return { dia: String(a.getDate()), mes: MESL(a) };
     if (a.getMonth() === b.getMonth()) return { dia: a.getDate() + '–' + b.getDate(), mes: MESL(a) };
     return { dia: a.getDate() + '–' + b.getDate(), mes: MESL(a).slice(0,3) + ' – ' + MESL(b).slice(0,3) };
@@ -504,19 +542,43 @@ const CONFIG = {
   pista.innerHTML = lista.map(({ e, n, nov }) => {
     const tag = e.enlace ? 'a' : 'div';
     const f = fechaGrande(e), st = estadoEv(e);
-    const cuerpo = e.imagen ? `<img src="${esc(e.imagen)}" alt="${esc(e.nombre)}" loading="lazy">` : `
-        <div class="vit-top">
-          ${nov ? '<span class="vit-nuevo">Nuevo</span>' : `<span class="vit-num">${String(n + 1).padStart(2, '0')}</span>`}
-          <svg class="vit-gl" viewBox="0 0 100 100" aria-hidden="true">${GLIFOS[e.ilustracion] || ''}</svg>
+    const fechaTxt = !e.inicio ? 'Fecha por anunciar'
+      : e.desde ? 'Desde el ' + f.dia + ' ' + MES3(parse(e.inicio))
+      : f.dia.replace('–', ' — ') + ' ' + MES3(parse(e.fin || e.inicio));
+    const nombre = esc(e.nombre).replace(/\*(.+?)\*/g, '<em>$1</em>');
+    const cuerpo = e.imagen ? `<img src="${esc(e.imagen)}" alt="">` : `
+        <div class="vt-top">
+          ${nov ? '<span class="vit-nuevo">Nuevo</span>' : `<span class="vt-num">${String(n + 1).padStart(2, '0')}</span>`}
+          <span class="vt-ico"><svg viewBox="0 0 100 100" aria-hidden="true">${GLIFOS[e.ilustracion] || ''}</svg></span>
         </div>
-        <div class="vit-fecha"><span class="vit-dia${f.pronto ? ' pronto' : ''}">${esc(f.dia)}</span><span class="vit-mes">${esc(f.mes)}</span></div>
-        <div class="vit-base"><span class="vit-nom">${esc(e.nombre)}</span>
-          <span class="vit-est${st.vivo ? ' vivo' : ''}"><i></i>${esc(st.t)}</span></div>`;
+        <h3 class="vt-nom">${nombre}</h3>
+        <div class="vt-pie">
+          <span class="vt-fecha">${esc(fechaTxt)}</span>
+          <span class="vt-est${st.vivo ? ' vivo' : ''}">${esc(st.t)}</span>
+        </div>`;
+    if (e.ficha) return `<a class="vit" href="#cesta-navidad" data-ficha="${esc(e.ficha)}"><div class="vit-card">${cuerpo}</div></a>`;
     return `<${tag} class="vit"${e.enlace ? ` href="${esc(e.enlace)}"` : ''}>
       <div class="vit-card">${cuerpo}</div>
       </${tag}>`;
   }).join('');
   $('escNum').textContent = String(lista.length).padStart(2, '0');
+  pista.style.setProperty('--n', lista.length);
+
+  /* ---------- Panel Cesta de Navidad ---------- */
+  const ces = $('ces'), C = CONFIG.cesta;
+  $('cesT').innerHTML = esc(C.titulo).replace(/\*(.+?)\*/g, '<em>$1</em>');
+  $('cesPasos').innerHTML = C.pasos.map((s, k) => `<li><span class="ces-n">${k + 1}</span><div><div class="ces-pt">${esc(s.t)}</div><div class="ces-pd">${esc(s.d)}</div></div></li>`).join('');
+  function abrirCesta() { ces.classList.add('on'); document.body.style.overflow = 'hidden'; if (typeof cerrarCartel === 'function') cerrarCartel(); $('cesX').focus(); }
+  function cerrarCesta() { ces.classList.remove('on'); document.body.style.overflow = ''; if (location.hash === '#cesta-navidad') history.replaceState(null, '', location.pathname + location.search); }
+  // Se abre desde su tarjeta, desde el calendario o con el enlace directo index.html#cesta-navidad
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href="#cesta-navidad"]'); if (!a) return;
+    e.preventDefault(); history.replaceState(null, '', '#cesta-navidad'); abrirCesta();
+  });
+  $('cesX').onclick = cerrarCesta; $('cesOk').onclick = cerrarCesta;
+  ces.addEventListener('click', e => { if (e.target === ces) cerrarCesta(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && ces.classList.contains('on')) cerrarCesta(); });
+  if (location.hash === '#cesta-navidad') setTimeout(abrirCesta, 500);
 
   const paso = () => { const v = pista.querySelector('.vit'); return v ? v.getBoundingClientRect().width + 20 : 300; };
   function estadoEsc() {
