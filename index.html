@@ -176,6 +176,8 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .ces-n{font-weight:200;font-size:40px;letter-spacing:-.04em;line-height:.9;color:var(--acento)}
 .ces-pt{font-size:17px;font-weight:400;line-height:1.25}
 .ces-pd{margin-top:6px;font-size:14px;line-height:1.55;color:#3a3a3a}
+.ces-mail{display:inline-block;margin-top:10px;font-size:12px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px}
+.ces-mail:hover{color:var(--acento);border-color:var(--acento)}
 .ces-ok{margin-top:26px;background:var(--ink);color:#fff;border:0;cursor:pointer;font:inherit;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:14px 26px}
 .ces-ok:hover{background:var(--acento)}
 
@@ -386,8 +388,11 @@ const CONFIG = {
     pasos: [
       { t: "Desde el 15 de diciembre", d: "Las cestas se entregarán a partir del 15 de diciembre." },
       { t: "Escanea tu QR de Inet", d: "Para recogerla, escanea tu código QR de Inet en las PDA que habrá ubicadas en cada sección." },
-      { t: "¿La recoge otra persona?", d: "Si tu cesta va a recogerla un compañero o compañera de trabajo, pásale un pantallazo de tu QR para que pueda recogerla." }
-    ]
+      { t: "¿La recoge otra persona?", d: "Si tu cesta va a recogerla un compañero o compañera de trabajo, pásale un pantallazo de tu QR para que pueda recogerla." },
+      { t: "Autorízalo por correo", d: "Por último, si tu cesta va a recogerla un compañero, además de pasarle el QR, envía un mail con tu nombre, apellidos y DNI, autorizando a la persona que va a recogerla con su nombre, apellidos y DNI." }
+    ],
+    // Dirección a la que se envía la autorización. Si se rellena, aparece en el punto 4 como enlace.
+    correo: ""
   },
 
   eventos: [
@@ -567,7 +572,13 @@ const CONFIG = {
   /* ---------- Panel Cesta de Navidad ---------- */
   const ces = $('ces'), C = CONFIG.cesta;
   $('cesT').innerHTML = esc(C.titulo).replace(/\*(.+?)\*/g, '<em>$1</em>');
-  $('cesPasos').innerHTML = C.pasos.map((s, k) => `<li><span class="ces-n">${k + 1}</span><div><div class="ces-pt">${esc(s.t)}</div><div class="ces-pd">${esc(s.d)}</div></div></li>`).join('');
+  const asunto = encodeURIComponent('Autorización recogida Cesta de Navidad');
+  const cuerpoMail = encodeURIComponent('Yo, [nombre y apellidos], con DNI [DNI], autorizo a [nombre y apellidos], con DNI [DNI], a recoger mi Cesta de Navidad.');
+  $('cesPasos').innerHTML = C.pasos.map((s, k) => {
+    const mail = k === C.pasos.length - 1 && C.correo
+      ? `<a class="ces-mail" href="mailto:${esc(C.correo)}?subject=${asunto}&body=${cuerpoMail}">Enviar a ${esc(C.correo)} →</a>` : '';
+    return `<li><span class="ces-n">${k + 1}</span><div><div class="ces-pt">${esc(s.t)}</div><div class="ces-pd">${esc(s.d)}</div>${mail}</div></li>`;
+  }).join('');
   function abrirCesta() { ces.classList.add('on'); document.body.style.overflow = 'hidden'; if (typeof cerrarCartel === 'function') cerrarCartel(); $('cesX').focus(); }
   function cerrarCesta() { ces.classList.remove('on'); document.body.style.overflow = ''; if (location.hash === '#cesta-navidad') history.replaceState(null, '', location.pathname + location.search); }
   // Se abre desde su tarjeta, desde el calendario o con el enlace directo index.html#cesta-navidad
