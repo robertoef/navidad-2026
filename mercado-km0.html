@@ -237,16 +237,17 @@ a.puesto{cursor:pointer}
    ===================================================================== */
 const CONFIG = {
 
-  antetitulo: "Navidad 2026|Fecha por anunciar",   // "|" separa con una línea fina
+  antetitulo: "Navidad 2026|21 y 22 de diciembre",   // "|" separa con una línea fina
   frase: "El Mercado *km 0*",                     // *palabra* = cursiva en rojo
 
   // Proveedores. Rellena cada campo cuando esté confirmado; lo que quede vacío
   // se muestra como "por anunciar". enlace: opcional (web o Instagram del proveedor).
   proveedores: [
-    { nombre: "", producto: "", fecha: "", ubicacion: "", enlace: "" },
-    { nombre: "", producto: "", fecha: "", ubicacion: "", enlace: "" },
-    { nombre: "", producto: "", fecha: "", ubicacion: "", enlace: "" },
-    { nombre: "", producto: "", fecha: "", ubicacion: "", enlace: "" }
+    // Nombre vacío = se muestra como "Proveedor sorpresa"
+    { nombre: "", producto: "", fecha: "Lunes 21 de diciembre", ubicacion: "Cierzo", enlace: "" },
+    { nombre: "", producto: "", fecha: "Lunes 21 de diciembre", ubicacion: "Cierzo", enlace: "" },
+    { nombre: "", producto: "", fecha: "Martes 22 de diciembre", ubicacion: "Cierzo", enlace: "" },
+    { nombre: "", producto: "", fecha: "Martes 22 de diciembre", ubicacion: "Cierzo", enlace: "" }
   ],
 
   asistente: {
@@ -257,15 +258,15 @@ const CONFIG = {
     diasNuevo: 3,
     saludo: {
       titulo: "Bienvenido al Mercado km 0",
-      texto: "Te avisaré aquí en cuanto confirmemos proveedores, fechas y ubicación."
+      texto: "Los días 21 y 22 de diciembre montamos los puestos. Quién viene… de momento es sorpresa."
     }
   },
 
   // Mensajes de Noa en esta página. importante: true → etiqueta "Importante" en rojo.
   avisos: [
     { fecha: "2026-10-21", evento: "Mercado km 0",
-      titulo: "Proveedores por anunciar",
-      texto: "Estamos cerrando quién vendrá, cuándo y dónde. Muy pronto, aquí.",
+      titulo: "21 y 22 de diciembre",
+      texto: "Cada día vendrán dos proveedores. De momento son sorpresa: muy pronto te contamos quiénes son.",
       enlace: "" }
   ],
 
@@ -301,8 +302,8 @@ const CONFIG = {
       ${TEJADO}${TOLDO}
       <div class="ventana">
         <span class="pu-num">${String(n + 1).padStart(2, '0')}</span>
-        <span class="pu-nom${p.nombre ? '' : ' vacio'}">${p.nombre ? esc(p.nombre) : 'Proveedor por anunciar'}</span>
-        <span class="pu-prod">${esc(p.producto)}</span>
+        <span class="pu-nom${p.nombre ? '' : ' vacio'}">${p.nombre ? esc(p.nombre) : 'Proveedor sorpresa'}</span>
+        <span class="pu-prod">${p.nombre ? esc(p.producto) : 'Muy pronto lo desvelamos'}</span>
         <dl class="pu-datos"><dt>Fecha</dt>${dato(p.fecha)}<dt>Ubicación</dt>${dato(p.ubicacion)}</dl>
       </div>
       <div class="barra"></div>
