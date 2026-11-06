@@ -179,6 +179,7 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .ces-dest{display:inline-block;margin-top:10px;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--acento);border:1px solid var(--acento);padding:6px 10px 5px}
 .ces-btn{display:inline-block;margin-top:12px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:11px 16px 10px;transition:background .3s,color .3s}
 .ces-btn:hover{background:var(--ink);color:#fff}
+@media (max-width:560px){.ces-btn,.ces-dest{letter-spacing:.12em}}
 .ces-ok{margin-top:26px;background:var(--ink);color:#fff;border:0;cursor:pointer;font:inherit;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:14px 26px}
 .ces-ok:hover{background:var(--acento)}
 
@@ -391,8 +392,7 @@ const CONFIG = {
     pasos: [
       { t: "Del 15 al 30 de diciembre", d: "Las cestas se entregarán a partir del 15 de diciembre. Este año, para poder reflejar su cotización, tendrás que recogerla como fecha límite el 30 de diciembre.", destaca: "Fecha límite: 30 de diciembre" },
       { t: "Identifícate en la PDA", d: "Para recogerla, en las PDA que habrá ubicadas en cada sección podrás escanear tu código QR de Inet, pasar tu tarjeta de empleado o introducir tu número de empleado. Las tres opciones son válidas." },
-      { t: "¿La recoge otra persona?", d: "Si tu cesta va a recogerla un compañero o compañera de trabajo, pásale un pantallazo de tu QR para que pueda recogerla." },
-      { t: "Rellena la autorización", d: "Por último, si tu cesta va a recogerla un compañero, además de pasarle el QR tienes que autorizarle rellenando este formulario.",
+      { t: "¿La recoge un compañero?", d: "Si tu cesta va a recogerla un compañero o compañera, solo tienes que rellenar este formulario de autorización. Cuando vaya a recogerla, tu compañero firmará un documento en la sección.",
         enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUM1o1UFdLSVNZOEpNNVpWS1hBQUpUT0hPMy4u", boton: "Rellenar autorización" }
     ]
     // destaca: texto resaltado en rojo bajo el paso. enlace + boton: añade un botón que abre ese enlace.
