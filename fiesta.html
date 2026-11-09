@@ -337,20 +337,20 @@ const CONFIG = {
   //   cartel: ruta a la imagen del cartel, en vertical (ej. "img/peli-1.jpg"); vacío = hueco "Próximamente"
   //   edad: edad recomendada (ej. "TP", "+7")   duracion: minutos (ej. 95) o texto (ej. "≈ 150 min"); vacío = no se muestra
   cartelera: [
-    // grupo: las películas se agrupan por este texto, en el orden en que aparecen
-    { grupo: "Menores de 12 años", titulo: "Superthings",
+    // grupo (opcional): título para agrupar películas, en el orden en que aparecen
+    { titulo: "Superthings",
       descripcion: "Mía, Kai y Finn, tres amigos de sexto de primaria, descubren un fragmento de Kazoom que fusiona su ordenada ciudad con Kaboom City, el mundo de los Superthings. Con poderes inesperados, tendrán que unir fuerzas para frenar al malvado Mr. King.",
       edad: "", duracion: "", cartel: "img/peli-superthings.jpg" },
-    { grupo: "Menores de 12 años", titulo: "La oveja Shaun",
+    { titulo: "La oveja Shaun",
       descripcion: "Halloween llega a la granja y trae el caos. Shaun se convierte en científico loco para salvar el huerto de calabazas, pero el plan se tuerce: el Granjero desaparece y una bestia anda suelta por el bosque.",
       edad: "", duracion: "", cartel: "img/peli-shaun.jpg" },
-    { grupo: "Menores de 12 años", titulo: "El gato con sombrero",
+    { titulo: "El gato con sombrero",
       descripcion: "Dos hermanos que acaban de mudarse a una ciudad nueva reciben la visita de un gato parlanchín con sombrero de rayas que convierte un día aburrido en un caos lleno de diversión. Nueva versión animada del clásico del Dr. Seuss.",
       edad: "", duracion: "", cartel: "img/peli-1.jpg" },
-    { grupo: "12 años o más", titulo: "Los juegos del hambre: Amanecer en la cosecha",
+    { titulo: "Los juegos del hambre: Amanecer en la cosecha",
       descripcion: "Precuela de la saga: en los 50.º Juegos del Hambre el Capitolio duplica el número de tributos. Un joven Haymitch, del Distrito 12, lucha por sobrevivir 24 años antes de la historia de Katniss.",
       edad: "", duracion: "", cartel: "img/peli-3.jpg" },
-    { grupo: "12 años o más", titulo: "Vengadores: Doomsday",
+    { titulo: "Vengadores: Doomsday",
       descripcion: "Los Vengadores y los Cuatro Fantásticos unen fuerzas contra el Doctor Doom, la mayor amenaza del multiverso, en la gran cita de Marvel que abre el camino a Secret Wars.",
       edad: "", duracion: "", cartel: "img/peli-4.jpg" }
   ],
@@ -424,7 +424,7 @@ const CONFIG = {
     return `<div class="cartelera">
       <div class="cart-cab">${bombillas}<span class="cart-tit">En cartelera</span><span class="cart-sub">Elige tu peli · 20 de diciembre · 11:15</span></div>
       <div class="grupos">${grupos().map(g => `<section class="grupo" style="--n:${g.pelis.length}">
-        <h4 class="grupo-tit">${esc(g.nombre)}</h4>
+        ${g.nombre ? `<h4 class="grupo-tit">${esc(g.nombre)}</h4>` : ''}
         <div class="pelis">${g.pelis.map(({ f, n }) => {
         const num = String(n + 1).padStart(2, '0');
         const cartel = f.cartel ? `<img src="${esc(f.cartel)}" alt="${esc(f.titulo)}" loading="lazy">`
