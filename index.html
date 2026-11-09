@@ -180,6 +180,18 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .ces-btn{display:inline-block;margin-top:12px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:11px 16px 10px;transition:background .3s,color .3s}
 .ces-btn:hover{background:var(--ink);color:#fff}
 @media (max-width:560px){.ces-btn,.ces-dest{letter-spacing:.12em}}
+.decimo{position:relative;display:grid;grid-template-columns:74px 1fr;margin-top:26px;border:1px solid var(--ink);background:#f7f2e9}
+.decimo::before,.decimo::after{content:"";position:absolute;left:66px;width:16px;height:16px;border-radius:50%;background:#fff;border:1px solid var(--ink)}
+.decimo::before{top:-9px;clip-path:inset(50% 0 0 0)}
+.decimo::after{bottom:-9px;clip-path:inset(0 0 50% 0)}
+.dec-talon{border-right:1px dashed var(--ink);display:grid;place-items:center}
+.dec-talon span{transform:rotate(-90deg);white-space:nowrap;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--soft)}
+.dec-cuerpo{padding:18px 22px 16px}
+.dec-k{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--soft)}
+.dec-num{margin-top:6px;font-weight:200;font-size:clamp(56px,10vw,86px);letter-spacing:.06em;line-height:1;color:var(--ink);font-variant-numeric:lining-nums tabular-nums}
+.dec-pie{margin-top:8px;font-size:11px;letter-spacing:.06em;color:var(--acento)}
+.ces-cierre{margin-top:24px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:34px;line-height:1;color:var(--acento)}
+.ces-cierre:empty{display:none}
 .ces-ok{margin-top:26px;background:var(--ink);color:#fff;border:0;cursor:pointer;font:inherit;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:14px 26px}
 .ces-ok:hover{background:var(--acento)}
 
@@ -290,7 +302,9 @@ em{font-variant-numeric:lining-nums}
     <button class="ces-x" id="cesX" aria-label="Cerrar">×</button>
     <p class="ces-k">Navidad 2026 · Plataforma Europa</p>
     <h2 class="ces-t" id="cesT"></h2>
+    <div id="cesExtra"></div>
     <ol class="ces-pasos" id="cesPasos"></ol>
+    <p class="ces-cierre" id="cesCierre"></p>
     <button class="ces-ok" id="cesOk">Entendido</button>
   </div>
 </div>
@@ -372,9 +386,12 @@ const CONFIG = {
   // Calendario. tipo: "evento" o "inscripcion" (plazo). etiqueta: texto opcional del tipo en la agenda.
   // Eventos de varios días: inicio + fin. Inscripción: el círculo se marca en la fecha de fin.
   calendario: [
+    { tipo: "inscripcion", etiqueta: "Venta plantilla indefinida", titulo: "Lotería de Navidad nº 39.637", inicio: "2026-11-06", fin: "2026-11-30", enlace: "#loteria-navidad" },
+    { tipo: "evento", titulo: "Lotería: venta libre para todo el mundo", inicio: "2026-12-01", enlace: "#loteria-navidad" },
     { tipo: "evento", titulo: "Mercadillo Solidario", inicio: "2026-12-10", fin: "2026-12-18", enlace: "mercadillo.html" },
     { tipo: "evento", titulo: "Empieza la entrega de la Cesta de Navidad", inicio: "2026-12-15", enlace: "#cesta-navidad" },
     { tipo: "evento", titulo: "Fiesta infantil", inicio: "2026-12-20", enlace: "fiesta.html" },
+    { tipo: "evento", titulo: "Sorteo de la Lotería de Navidad", inicio: "2026-12-22", enlace: "#loteria-navidad" },
     { tipo: "evento", titulo: "Jornadas de puertas abiertas", inicio: "2026-12-21", fin: "2026-12-22", enlace: "puertas-abiertas.html" },
     { tipo: "evento", titulo: "El Mercado km 0", inicio: "2026-12-21", fin: "2026-12-22", enlace: "mercado-km0.html" },
     { tipo: "inscripcion", etiqueta: "Fecha límite", titulo: "Recoger la Cesta de Navidad", inicio: "2026-12-15", fin: "2026-12-30", enlace: "#cesta-navidad" }
@@ -386,6 +403,19 @@ const CONFIG = {
   // Eventos de la home. inicio/fin: "AAAA-MM-DD" (vacío = por anunciar).
   // estado: texto opcional (ej. "Inscripciones abiertas"); si está vacío se calcula con la fecha.
   // nombre: *palabra* = cursiva. imagen: opcional; si se pone, sustituye a la tarjeta tipográfica.
+  // Ficha de la Lotería de Navidad (se abre al pulsar su tarjeta). numero: se muestra como un décimo.
+  loteria: {
+    titulo: "Lotería de *Navidad*",
+    numero: "39637",
+    pie: "Sorteo Extraordinario de Navidad · 22 de diciembre",
+    pasos: [
+      { t: "Dónde comprarla", d: "Ya está disponible el número de Lotería de Navidad de Plataforma Europa en la Administración nº 1 de Zaragoza.", destaca: "C/ Coso, 23 · Zaragoza" },
+      { t: "Del 6 al 30 de noviembre: plantilla indefinida", d: "Venta abierta para todos los empleados con contrato indefinido, desde el 6 de noviembre a las 16:00 h hasta el 30 de noviembre. Limitado a un décimo por persona. Es imprescindible presentar documento de identificación para su compra." },
+      { t: "Desde el 1 de diciembre: venta libre", d: "A partir del 1 de diciembre, venta libre para todo el mundo." }
+    ],
+    cierre: "¡Suerte!"
+  },
+
   // Instrucciones de la Cesta de Navidad (se abren al pulsar su tarjeta)
   cesta: {
     titulo: "Tu *Cesta de Navidad*",
@@ -399,6 +429,7 @@ const CONFIG = {
   },
 
   eventos: [
+    { nombre: "Lotería de *Navidad*", inicio: "2026-11-06", fin: "2026-11-30", estado: "Nº 39.637 · a la venta", imagen: "", ilustracion: "decimo", ficha: "loteria" },
     { nombre: "Mercadillo *Solidario*", inicio: "2026-12-10", fin: "2026-12-18", estado: "Voluntariado abierto", imagen: "", ilustracion: "percha", enlace: "mercadillo.html" },
     { nombre: "Cesta de *Navidad*", inicio: "2026-12-15", fin: "2026-12-30", estado: "Recógela antes del 30", imagen: "", ilustracion: "cesta", ficha: "cesta" },
     { nombre: "Fiesta *infantil*", inicio: "2026-12-20", fin: "", estado: "", imagen: "", ilustracion: "corona", enlace: "fiesta.html" },
@@ -435,7 +466,9 @@ const CONFIG = {
   const minM = Math.min(...meses), maxM = Math.max(...meses);
   const prox = items.filter(i => i.b >= hoy).sort((x, y) => x.a - y.a);
   const ref = prox.find(i => i.tipo === 'evento') || prox[0] || items[0];
-  let mes = mIdx(ref.a < hoy && ref.b >= hoy ? hoy : ref.a);
+  // Si hay algo en curso hoy (p. ej. la venta de lotería), empieza en el mes actual
+  const enCurso = items.some(i => i.a <= hoy && i.b >= hoy);
+  let mes = mIdx(enCurso || (ref.a < hoy && ref.b >= hoy) ? hoy : ref.a);
   const MES = d => new Intl.DateTimeFormat('es-ES', { month:'short' }).format(d).replace('.', '').toUpperCase();
 
   function fechaAg(it) {
@@ -513,6 +546,7 @@ const CONFIG = {
     // Nave central con un silo bajo a cada lado; todos con tejado plano
     almacen: '<path d="M8 70 H92"/><path d="M31 70 V42 H69 V70"/><path d="M44 70 V58 H56 V70"/><path d="M15 70 V53 H27 V70"/><path d="M15 61.5 H27"/><path d="M73 70 V53 H85 V70"/><path d="M73 61.5 H85"/>',
     // Croissant: media luna con gajos y puntas hacia abajo
+    decimo:  '<path d="M16 32 H84 V68 H16 Z"/><path d="M32 32 V68" stroke-dasharray="3 4"/><path d="M42 46 H74 M42 56 H64"/>',
     cesta:   '<path d="M18 48 H82 L74 80 H26 Z"/><path d="M30 48 Q50 14 70 48"/><path d="M22 60 H78 M24 70 H76 M40 48 L42 80 M60 48 L58 80"/>',
     dulce:   '<path d="M14 66 Q14.5 54.6 26 48 Q29.4 36 40 36 Q50 28 60 36 Q70.6 36 74 48 Q85.5 54.6 86 66 Q50 50 14 66 Z"/><path d="M26 48 Q31 54 32 60 M40 36 Q43 47 43 58.4 M60 36 Q57 47 57 58.4 M74 48 Q69 54 68 60"/>'
   };
@@ -564,7 +598,7 @@ const CONFIG = {
           <span class="vt-fecha">${esc(fechaTxt)}</span>
           <span class="vt-est${st.vivo ? ' vivo' : ''}">${esc(st.t)}</span>
         </div>`;
-    if (e.ficha) return `<a class="vit" href="#cesta-navidad" data-ficha="${esc(e.ficha)}"><div class="vit-card">${cuerpo}</div></a>`;
+    if (e.ficha) return `<a class="vit" href="#${esc(e.ficha)}-navidad" data-ficha="${esc(e.ficha)}"><div class="vit-card">${cuerpo}</div></a>`;
     return `<${tag} class="vit"${e.enlace ? ` href="${esc(e.enlace)}"` : ''}>
       <div class="vit-card">${cuerpo}</div>
       </${tag}>`;
@@ -572,25 +606,37 @@ const CONFIG = {
   $('escNum').textContent = String(lista.length).padStart(2, '0');
   pista.style.setProperty('--n', lista.length);
 
-  /* ---------- Panel Cesta de Navidad ---------- */
-  const ces = $('ces'), C = CONFIG.cesta;
-  $('cesT').innerHTML = esc(C.titulo).replace(/\*(.+?)\*/g, '<em>$1</em>');
-  $('cesPasos').innerHTML = C.pasos.map((s, k) => {
-    const extra = (s.destaca ? `<div class="ces-dest">${esc(s.destaca)}</div>` : '')
-      + (s.enlace ? `<a class="ces-btn" href="${esc(s.enlace)}" target="_blank" rel="noopener">${esc(s.boton || 'Abrir')} →</a>` : '');
-    return `<li><span class="ces-n">${k + 1}</span><div><div class="ces-pt">${esc(s.t)}</div><div class="ces-pd">${esc(s.d)}</div>${extra}</div></li>`;
-  }).join('');
-  function abrirCesta() { ces.classList.add('on'); document.body.style.overflow = 'hidden'; if (typeof cerrarCartel === 'function') cerrarCartel(); $('cesX').focus(); }
-  function cerrarCesta() { ces.classList.remove('on'); document.body.style.overflow = ''; if (location.hash === '#cesta-navidad') history.replaceState(null, '', location.pathname + location.search); }
-  // Se abre desde su tarjeta, desde el calendario o con el enlace directo index.html#cesta-navidad
+  /* ---------- Paneles: Cesta de Navidad y Lotería ---------- */
+  // Cada panel se abre con su enlace (#cesta-navidad, #loteria-navidad): tarjeta, calendario o enlace directo
+  const ces = $('ces');
+  const FICHAS = { 'cesta-navidad': CONFIG.cesta, 'loteria-navidad': CONFIG.loteria };
+  function pintaFicha(C) {
+    $('cesT').innerHTML = esc(C.titulo).replace(/\*(.+?)\*/g, '<em>$1</em>');
+    $('cesExtra').innerHTML = C.numero ? `<div class="decimo"><span class="dec-talon"><span>Navidad 2026</span></span>
+      <div class="dec-cuerpo"><div class="dec-k">Jugamos con el número</div><div class="dec-num">${esc(C.numero)}</div>${C.pie ? `<div class="dec-pie">${esc(C.pie)}</div>` : ''}</div></div>` : '';
+    $('cesPasos').innerHTML = C.pasos.map((s, k) => {
+      const extra = (s.destaca ? `<div class="ces-dest">${esc(s.destaca)}</div>` : '')
+        + (s.enlace ? `<a class="ces-btn" href="${esc(s.enlace)}" target="_blank" rel="noopener">${esc(s.boton || 'Abrir')} →</a>` : '');
+      return `<li><span class="ces-n">${k + 1}</span><div><div class="ces-pt">${esc(s.t)}</div><div class="ces-pd">${esc(s.d)}</div>${extra}</div></li>`;
+    }).join('');
+    $('cesCierre').textContent = C.cierre || '';
+  }
+  function abrirFicha(clave) {
+    const C = FICHAS[clave]; if (!C) return;
+    pintaFicha(C); ces.querySelector('.ces-in').scrollTop = 0;
+    ces.classList.add('on'); document.body.style.overflow = 'hidden';
+    if (typeof cerrarCartel === 'function') cerrarCartel(); $('cesX').focus();
+  }
+  function cerrarCesta() { ces.classList.remove('on'); document.body.style.overflow = ''; if (FICHAS[location.hash.slice(1)]) history.replaceState(null, '', location.pathname + location.search); }
   document.addEventListener('click', e => {
-    const a = e.target.closest('a[href="#cesta-navidad"]'); if (!a) return;
-    e.preventDefault(); history.replaceState(null, '', '#cesta-navidad'); abrirCesta();
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    const clave = a.getAttribute('href').slice(1); if (!FICHAS[clave]) return;
+    e.preventDefault(); history.replaceState(null, '', '#' + clave); abrirFicha(clave);
   });
   $('cesX').onclick = cerrarCesta; $('cesOk').onclick = cerrarCesta;
   ces.addEventListener('click', e => { if (e.target === ces) cerrarCesta(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && ces.classList.contains('on')) cerrarCesta(); });
-  if (location.hash === '#cesta-navidad') setTimeout(abrirCesta, 500);
+  if (FICHAS[location.hash.slice(1)]) setTimeout(() => abrirFicha(location.hash.slice(1)), 500);
 
   const paso = () => { const v = pista.querySelector('.vit'); return v ? v.getBoundingClientRect().width + 20 : 300; };
   function estadoEsc() {
