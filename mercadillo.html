@@ -135,6 +135,7 @@ button{font:inherit;color:inherit}
 .et-ir{font-size:12px;color:var(--soft);transition:transform .35s,color .35s}
 .ropa:hover .etiqueta{background:var(--warm)}
 .ropa:hover .et-ir{transform:translateX(5px);color:var(--ink)}
+.et-plazo{font-weight:500;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--acento)}
 .ropa.pronto .et-ir{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
 .burra.foco .ropa:not(:hover) .etiqueta{opacity:.4;transition:opacity .35s,background .4s}
 
@@ -298,8 +299,9 @@ const CONFIG = {
   // cartel: si lo tiene, al pulsar se abre el cartel a pantalla completa; pulsar el cartel abre "enlace".
   // id: permite enlazar directamente al cartel (ej. mercadillo.html#solidary-talent).
   // ficha: "proyecto" → al pulsar se abre la ficha del proyecto solidario (ver "proyecto").
+  // hasta: "AAAA-MM-DD" → muestra "Hasta el …" y, pasada esa fecha, el apartado se cierra solo ("Plazo cerrado").
   apartados: [
-    { nombre: "Hazte voluntario",       enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUMDVaOUY4VlVQRDRET0o4Njc0SUdURFlJQy4u" },
+    { nombre: "Hazte voluntario",       hasta: "2026-11-15", enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUMDVaOUY4VlVQRDRET0o4Njc0SUdURFlJQy4u" },
     { nombre: "Solidary Talent",        id: "solidary-talent", cartel: "img/solidary-talent.jpg", enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUQkZMWDVVM0FNTlk4SU80OTRZMk5VUjlaMC4u" },
     { nombre: "Percha Zero",            enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RURFJSTjFOSlZIODk4WjQ4STVBODdPNUU0Si4u" },
     { nombre: "Reservas Mercadillo",    enlace: "" },
@@ -346,7 +348,11 @@ const CONFIG = {
     { fecha: "2026-10-21", evento: "Mercadillo Solidario", importante: true,
       titulo: "Del 10 al 18 de diciembre",
       texto: "Aquí tienes todo: voluntariado, Solidary Talent, Percha Zero, reservas, lotes Zara Home y el proyecto al que ayudamos.",
-      enlace: "" }
+      enlace: "" },
+    { fecha: "2026-11-10", evento: "Voluntariado", importante: true,
+      titulo: "Apúntate hasta el 15 de noviembre",
+      texto: "El plazo para inscribirte como voluntario del Mercadillo termina el 15 de noviembre. ¡Te esperamos!",
+      enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUMDVaOUY4VlVQRDRET0o4Njc0SUdURFlJQy4u" }
   ],
 
   nieve: true
@@ -373,7 +379,11 @@ const CONFIG = {
   /* ---------- Perchas ---------- */
   const PERCHA = '<svg class="percha" viewBox="0 0 120 64" aria-hidden="true"><path d="M53 11 C53 2 67 2 67 11 C67 16 60 17 60 23"/><path d="M60 23 L14 47 H106 Z"/><path d="M60 47 V64"/></svg>';
   const burra = $('burra');
-  burra.innerHTML = CONFIG.apartados.map((a, n) => {
+  burra.innerHTML = CONFIG.apartados.map((a0, n) => {
+    const cerrado = a0.hasta && hoy > parse(a0.hasta);
+    const a = cerrado ? { ...a0, enlace: '', cartel: '', ficha: '' } : a0;
+    const dia = a0.hasta ? corto(parse(a0.hasta)) : '';
+    const ir = cerrado ? 'Plazo cerrado' : (a.enlace || a.cartel || a.ficha) ? (a0.hasta ? `<b class="et-plazo">Hasta el ${esc(dia)}</b>` : '→') : 'Próximamente';
     const tag = a.enlace || a.cartel || a.ficha ? 'a' : 'div';
     const attrs = a.ficha ? ` href="#${esc(a.id || 'ficha-' + n)}" data-ficha="${n}"`
       : a.cartel ? ` href="#${esc(a.id || 'cartel-' + n)}" data-cartel="${n}"`
@@ -383,7 +393,7 @@ const CONFIG = {
         <div class="etiqueta">
           <span class="et-num">${String(n + 1).padStart(2, '0')}</span>
           <span class="et-nom">${esc(a.nombre)}</span>
-          <span class="et-ir">${a.enlace || a.cartel || a.ficha ? '→' : 'Próximamente'}</span>
+          <span class="et-ir">${ir}</span>
         </div>
       </div></${tag}>`;
   }).join('');
