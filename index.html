@@ -194,6 +194,39 @@ a.ag:hover .ag-tit{text-decoration:underline;text-underline-offset:3px}
 .ces-cierre:empty{display:none}
 .ces-ok{margin-top:26px;background:var(--ink);color:#fff;border:0;cursor:pointer;font:inherit;font-size:10px;letter-spacing:.28em;text-transform:uppercase;padding:14px 26px}
 .ces-ok:hover{background:var(--acento)}
+/* Unboxing: qué lleva la cesta */
+.unbox{position:relative;display:block;width:100%;margin-top:20px;padding:64px 0 0;background:none;border:0;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.ub-tapa{position:absolute;left:-8px;right:-8px;top:64px;height:30px;background:#f4f0ea;border:1px solid var(--ink);z-index:2;transform-origin:12% 100%;transition:transform .7s cubic-bezier(.3,1.4,.4,1)}
+.ub-caja{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;min-height:150px;margin-top:29px;padding:24px 24px 20px calc(16% + 46px);background:#f4f0ea;border:1px solid var(--ink)}
+.ub-cinta{position:absolute;top:0;bottom:0;left:16%;width:18px;background:var(--acento)}
+.ub-tapa .ub-cinta{left:calc(16% + 8px)}
+.ub-lazo{position:absolute;left:calc(16% + 17px);bottom:100%;width:74px;transform:translateX(-50%)}
+.ub-lazo svg{display:block;width:100%;overflow:visible}
+.ub-lazo path{fill:none;stroke:var(--acento);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ub-txt{font-weight:200;font-size:clamp(26px,4.4vw,36px);line-height:1;letter-spacing:-.03em}
+.ub-txt em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:var(--acento);letter-spacing:-.01em}
+.ub-cta{flex:none;font-size:10px;letter-spacing:.26em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:3px}
+.unbox:hover .ub-tapa,.unbox:focus-visible .ub-tapa{transform:translateY(-6px) rotate(-2deg)}
+.unbox[aria-expanded="true"] .ub-tapa{transform:translate(-2px,-16px) rotate(-5deg)}
+.unbox[aria-expanded="true"] .ub-cta{border-color:transparent;color:var(--soft)}
+.ub-cont{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s ease}
+.ub-cont>div{overflow:hidden}
+.ub-cont.on{grid-template-rows:1fr}
+.ub-k{margin-top:26px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--soft)}
+.ub-grupo{margin-top:22px}
+.ub-g{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:8px;border-bottom:1px solid var(--ink);font-weight:400}
+.ub-g em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:400;font-size:32px;line-height:1;color:var(--acento)}
+.ub-g span{font-size:10px;letter-spacing:.24em;color:var(--soft)}
+.ub-lista{list-style:none}
+.ub-lista li{padding:11px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.35;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
+.ub-cont.on .ub-lista li{opacity:1;transform:none}
+.ub-lista b{font-weight:500}
+.ub-d{font-weight:300;color:#555}
+.ub-extras{list-style:none;margin-top:22px;padding:16px 18px;background:#f4f0ea}
+.ub-extras li{font-size:14px;font-weight:500;line-height:1.9;color:var(--acento)}
+.ub-nota{margin-top:14px;font-size:13px;line-height:1.5;color:var(--soft)}
+@media (max-width:560px){.ub-caja{min-height:120px;padding:18px 16px 16px calc(16% + 34px);flex-direction:column;align-items:flex-start}.ub-lazo{width:60px}}
+@media (prefers-reduced-motion:reduce){.ub-tapa,.ub-cont,.ub-lista li{transition:none}}
 
 /* ---------- Responsive ---------- */
 @media (max-width:760px){
@@ -369,6 +402,10 @@ const CONFIG = {
   // Carteles del asistente. Se muestran del más reciente al más antiguo.
   // enlace: deja "" si todavía no hay página del evento.
   avisos: [
+    { fecha: "2026-11-20", evento: "Cesta de Navidad",
+      titulo: "¿Quieres saber qué lleva la Cesta de Navidad?",
+      texto: "Ya puedes descubrirlo: ábrela y mira todo lo que te espera este año.",
+      enlace: "#cesta-navidad/contenido" },
     { fecha: "2026-11-10", evento: "Mercadillo Solidario", importante: true,
       titulo: "Voluntariado: hasta el 15 de noviembre",
       texto: "Si quieres echar una mano en el Mercadillo, apúntate antes del 15 de noviembre.",
@@ -431,6 +468,43 @@ const CONFIG = {
         enlace: "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=tr3oyHyO1UG8QTf_88M7dSTbe2V-I75FnEnP5v6Sp9RUM1o1UFdLSVNZOEpNNVpWS1hBQUpUT0hPMy4u", boton: "Rellenar autorización" }
     ]
     // destaca: texto resaltado en rojo bajo el paso. enlace + boton: añade un botón que abre ese enlace.
+    ,
+    // Contenido de la cesta: botón "unboxing". Si "grupos" está vacío, el botón no aparece.
+    // Enlace directo con la caja ya abierta: #cesta-navidad/contenido
+    contenido: {
+      pregunta: "¿Qué lleva|*tu cesta?*",
+      titulo: "Qué contiene la cesta",
+      grupos: [
+        { nombre: "Dulce", productos: [
+          { nombre: "Turrón Jijona", detalle: "Alta Selección · 250gr" },
+          { nombre: "Turrón de Alicante", detalle: "Alta Selección · 250gr" },
+          { nombre: "Turrón Yema Tostada", detalle: "Alta Selección · 250gr" },
+          { nombre: "Polvorón Obrador Almendra", detalle: "Artesano Gamito · 200gr" },
+          { nombre: "Moscovitas", detalle: "Rialto · 80gr" },
+          { nombre: "Crema de Cacahuete", detalle: "La Original · 200gr" },
+          { nombre: "Galletas Mantequilla", detalle: "Pandejuevo · 130gr" },
+          { nombre: "Bombones Cacao y Frambuesa", detalle: "Doriel · 120gr" },
+          { nombre: "Miel", detalle: "Artesanal · 300gr" }
+        ]},
+        { nombre: "Salado", productos: [
+          { nombre: "Xmas Chicken Galo", detalle: "Celta Premium · 2,4kg" },
+          { nombre: "Paté de Centollo y Buey", detalle: "La Curiosa · 80gr" },
+          { nombre: "Sardinillas 8-14 en AOVE Eco", detalle: "Fish& Chic · 115gr" },
+          { nombre: "Bonito del Norte en AOVE", detalle: "Yurrita · 315gr" },
+          { nombre: "Queso Oveja Semi + Viejo", detalle: "Quevedo · 400gr" },
+          { nombre: "Chorizo + Salchichón Ibérico Bellota", detalle: "Isidro González · 650gr" },
+          { nombre: "Almendra Tostada Sin Piel", detalle: "La Despensa del Lujo · 200gr" },
+          { nombre: "AOVE Urzante", detalle: "Variedad Koroneiki · 50cl" }
+        ]},
+        { nombre: "Bebidas", productos: [
+          { nombre: "Vino Blanco Sauvignon & Godello", detalle: "Marqués de Riscal · 75cl" },
+          { nombre: "Vino Tinto Reserva Edición Risk All", detalle: "Marqués de Riscal · 75cl" },
+          { nombre: "Champagne Cuvée Premium Brut", detalle: "Malard · 75cl" }
+        ]}
+      ],
+      extras: ["Detalle Adorno Zara Home", "Caja Cartón Reciclado Inditex", "Bolsa Textil Reciclado"],
+      nota: ""
+    }
   },
 
   eventos: [
@@ -558,8 +632,8 @@ const CONFIG = {
 
   // Novedad automática: el último aviso de Noa que enlaza a ese evento, si es de los últimos 7 días
   const novedad = e => {
-    if (!e.enlace) return null;
-    const av = CONFIG.avisos.filter(a => a.enlace === e.enlace && (hoy - parse(a.fecha)) / 864e5 <= 7)
+    const link = e.enlace || (e.ficha ? '#' + e.ficha + '-navidad' : ''); if (!link) return null;
+    const av = CONFIG.avisos.filter(a => a.enlace && (a.enlace === link || a.enlace.startsWith(link + '/')) && (hoy - parse(a.fecha)) / 864e5 <= 7)
       .sort((x, y) => y.fecha.localeCompare(x.fecha));
     return av[0] || null;
   };
@@ -625,23 +699,50 @@ const CONFIG = {
       return `<li><span class="ces-n">${k + 1}</span><div><div class="ces-pt">${esc(s.t)}</div><div class="ces-pd">${esc(s.d)}</div>${extra}</div></li>`;
     }).join('');
     $('cesCierre').textContent = C.cierre || '';
+    const K = C.contenido;
+    if (K && K.grupos && K.grupos.length) {
+      const lazo = '<svg viewBox="0 0 80 40" aria-hidden="true"><path d="M40 38 C30 18 6 10 8 26 C9 36 30 38 40 38 Z"/><path d="M40 38 C50 18 74 10 72 26 C71 36 50 38 40 38 Z"/><path d="M40 38 L30 40 M40 38 L50 40"/></svg>';
+      $('cesExtra').insertAdjacentHTML('beforeend', `
+        <button class="unbox" id="unbox" aria-expanded="false" aria-controls="ubCont">
+          <span class="ub-tapa"><span class="ub-cinta"></span><span class="ub-lazo">${lazo}</span></span>
+          <span class="ub-caja"><span class="ub-cinta"></span>
+            <span class="ub-txt">${esc(K.pregunta || '¿Qué lleva tu cesta?').replace(/\*(.+?)\*/g, '<em>$1</em>').replace('|', '<br>')}</span>
+            <span class="ub-cta" id="ubCta">Ábrela</span></span>
+        </button>
+        <div class="ub-cont" id="ubCont"><div>
+          <p class="ub-k">${esc(K.titulo || 'Contenido')}</p>
+          ${K.grupos.map((g, j) => `<div class="ub-grupo"><h3 class="ub-g"><em>${esc(g.nombre)}</em><span>${g.productos.length}</span></h3>
+            <ul class="ub-lista">${g.productos.map((x, k) => `<li style="transition-delay:${.2 + j * .15 + k * .04}s"><b>${esc(x.nombre)}</b>${x.detalle ? ` <span class="ub-d">${esc(x.detalle)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')}
+          ${K.extras && K.extras.length ? `<ul class="ub-extras">${K.extras.map(x => `<li>+ ${esc(x)}</li>`).join('')}</ul>` : ''}
+          ${K.nota ? `<p class="ub-nota">${esc(K.nota)}</p>` : ''}
+        </div></div>`);
+      $('unbox').onclick = () => unboxing(!$('ubCont').classList.contains('on'));
+    }
   }
-  function abrirFicha(clave) {
-    const C = FICHAS[clave]; if (!C) return;
+  function unboxing(abrir) {
+    const b = $('unbox'); if (!b) return;
+    b.setAttribute('aria-expanded', abrir); $('ubCont').classList.toggle('on', abrir);
+    $('ubCta').textContent = abrir ? 'Cerrar' : 'Ábrela';
+    if (abrir) setTimeout(() => { const box = ces.querySelector('.ces-in'); box.scrollTo({ top: b.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 10, behavior: reduce ? 'auto' : 'smooth' }); }, 350);
+  }
+  const fichaDe = h => FICHAS[h.split('/')[0]] ? h.split('/')[0] : null;
+  function abrirFicha(hash) {
+    const clave = fichaDe(hash), C = FICHAS[clave]; if (!C) return;
     pintaFicha(C); ces.querySelector('.ces-in').scrollTop = 0;
+    if (hash.endsWith('/contenido')) setTimeout(() => unboxing(true), 650);
     ces.classList.add('on'); document.body.style.overflow = 'hidden';
     if (typeof cerrarCartel === 'function') cerrarCartel(); $('cesX').focus();
   }
-  function cerrarCesta() { ces.classList.remove('on'); document.body.style.overflow = ''; if (FICHAS[location.hash.slice(1)]) history.replaceState(null, '', location.pathname + location.search); }
+  function cerrarCesta() { ces.classList.remove('on'); document.body.style.overflow = ''; if (fichaDe(location.hash.slice(1))) history.replaceState(null, '', location.pathname + location.search); }
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]'); if (!a) return;
-    const clave = a.getAttribute('href').slice(1); if (!FICHAS[clave]) return;
+    const clave = a.getAttribute('href').slice(1); if (!fichaDe(clave)) return;
     e.preventDefault(); history.replaceState(null, '', '#' + clave); abrirFicha(clave);
   });
   $('cesX').onclick = cerrarCesta; $('cesOk').onclick = cerrarCesta;
   ces.addEventListener('click', e => { if (e.target === ces) cerrarCesta(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && ces.classList.contains('on')) cerrarCesta(); });
-  if (FICHAS[location.hash.slice(1)]) setTimeout(() => abrirFicha(location.hash.slice(1)), 500);
+  if (fichaDe(location.hash.slice(1))) setTimeout(() => abrirFicha(location.hash.slice(1)), 500);
 
   const paso = () => { const v = pista.querySelector('.vit'); return v ? v.getBoundingClientRect().width + 20 : 300; };
   function estadoEsc() {
